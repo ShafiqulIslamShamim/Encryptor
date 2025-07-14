@@ -1,0 +1,86 @@
+<resources>
+    <string-array name="conversion_options">
+    <item>Encrypt &amp; decrypt(slow but secured)</item>
+    <item>Encrypt &amp; decrypt(fast But less secured)</item>
+    <item>Base64</item>
+    <item>Unicode</item>
+    <item>URL encoding</item>
+    <item>MD5</item>
+    <item>SHA-1</item>
+    <item>SHA-224</item>
+    <item>SHA-256</item>
+    <item>SHA-384</item>
+    <item>SHA-512</item>
+    <item>Array (UTF-8)</item>
+    <item>Array (UTF-16)</item>
+    <item>Array (UTF-16LE)</item>
+    <item>Array (UTF-16BE)</item>
+    <item>Array (US-ASCII)</item>
+    <item>Array (ISO-8859-1)</item>
+    <item>Array (CP1251)</item>
+    <item>Decimal Binary</item>
+    <item>Decimal Octal</item>
+    <item>Decimal Hex</item>
+    <item>Decimal Hex (0x0)</item>
+    <item>Decimal Hex (0x00000000)</item>
+    <item>Float Binary</item>
+    <item>Float Octal</item>
+    <item>Float Hex</item>
+    <item>Float Hex (0x0)</item>
+    <item>Float Hex (0x00000000)</item>
+    <item>Color Hex</item>
+    <item>Color Decimal</item>
+    <item>Color ARGB</item>
+    <item>Text Binary</item>    
+    </string-array>
+    <string-array name="conversion_options_entryvalue">
+    <item>27</item>
+    <item>30</item>    
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+    <item>3</item>
+    <item>4</item>
+    <item>5</item>
+    <item>6</item>
+    <item>7</item>
+    <item>8</item>
+    <item>9</item>
+    <item>10</item>
+    <item>11</item>
+    <item>12</item>
+    <item>13</item>
+    <item>14</item>
+    <item>15</item>
+    <item>16</item>
+    <item>17</item>
+    <item>18</item>
+    <item>19</item>
+    <item>20</item>
+    <item>21</item>
+    <item>22</item>
+    <item>23</item>
+    <item>24</item>
+    <item>25</item>
+    <item>26</item>
+    <item>28</item>
+    <item>29</item>
+    <item>31</item>
+    </string-array>
+    
+    
+    
+      <!-- Theme options for spinner/list -->
+    <string-array name="theme_options">
+        <item>Follow System</item>
+        <item>Dark Mode</item>
+        <item>Light Mode</item>
+    </string-array>
+
+    <!-- Theme option values (correspond to AppCompatDelegate modes) -->
+    <string-array name="theme_option_values">
+        <item>0</item>  <!-- MODE_NIGHT_FOLLOW_SYSTEM -->
+        <item>2</item>  <!-- MODE_NIGHT_YES -->
+        <item>3</item>  <!-- MODE_NIGHT_NO -->
+    </string-array>
+</resources>

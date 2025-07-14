@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+        <!-- ✅ Toolbar -->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:titleTextColor="?attr/colorOnSurface"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0">
+
+        <TextView
+            android:id="@+id/labelEditText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/data"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="2dp"
+            android:paddingStart="10dp" />
+
+        <EditText
+            android:id="@id/converterEditText1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/labelEditText1"
+            android:hint="@string/data"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:paddingStart="10dp" />
+
+        <ImageView
+            android:id="@id/converterImageView1"
+            android:background="?android:selectableItemBackground"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="24.0dip"
+            android:layout_height="24.0dip"
+            android:layout_marginTop="5.0dip"
+            android:layout_marginRight="5.0dip"
+            android:src="@drawable/ic_copy"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/labelEditText1"
+            android:contentDescription="@string/copy" />
+
+        <ImageView
+            android:id="@id/converterImageView3"
+            android:background="?android:selectableItemBackground"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="24.0dip"
+            android:layout_height="24.0dip"
+            android:layout_marginTop="10.0dip"
+            android:layout_marginRight="5.0dip"
+            android:src="@drawable/ic_paste"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/converterImageView1"
+            android:contentDescription="@string/paste" />
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0">
+
+        <TextView
+            android:id="@+id/labelEditText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/result"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="2dp"
+            android:paddingStart="10dp" />
+
+        <EditText
+            android:id="@id/converterEditText2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/labelEditText2"
+            android:hint="@string/result"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:paddingStart="10dp" />
+
+        <ImageView
+            android:id="@id/converterImageView2"
+            android:background="?android:selectableItemBackground"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="24.0dip"
+            android:layout_height="24.0dip"
+            android:layout_marginTop="5.0dip"
+            android:layout_marginRight="5.0dip"
+            android:src="@drawable/ic_copy"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/labelEditText2"
+            android:contentDescription="@string/copy" />
+
+        <ImageView
+            android:id="@id/converterImageView4"
+            android:background="?android:selectableItemBackground"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="24.0dip"
+            android:layout_height="24.0dip"
+            android:layout_marginTop="10.0dip"
+            android:layout_marginRight="5.0dip"
+            android:src="@drawable/ic_paste"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/converterImageView2"
+            android:contentDescription="@string/paste" />
+            
+        <ImageView
+            android:id="@+id/converterImageView5"
+            android:background="?android:selectableItemBackground"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="24.0dip"
+            android:layout_height="24.0dip"
+            android:layout_marginTop="10.0dip"
+            android:layout_marginRight="5.0dip"
+            android:src="@drawable/ic_reload"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/converterImageView4"
+            android:contentDescription="Reload"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>
