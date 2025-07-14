@@ -22,10 +22,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('keystore/releasekey.jks')
-            storePassword 'shamimofficialkey'
-            keyAlias 'releasekey'
-            keyPassword 'releasekey2025'
+            
         }
     }
 
