@@ -1,3 +1,0 @@
-/storage/emulated/0/AndroidIDEProjects/Encryptor/app/.cxx/Debug/714v2c10/armeabi-v7a/CMakeFiles/native-lib.dir
-/storage/emulated/0/AndroidIDEProjects/Encryptor/app/.cxx/Debug/714v2c10/armeabi-v7a/CMakeFiles/edit_cache.dir
-/storage/emulated/0/AndroidIDEProjects/Encryptor/app/.cxx/Debug/714v2c10/armeabi-v7a/CMakeFiles/rebuild_cache.dir

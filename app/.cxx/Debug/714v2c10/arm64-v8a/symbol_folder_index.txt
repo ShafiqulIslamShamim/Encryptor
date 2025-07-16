@@ -1,1 +1,0 @@
-/storage/emulated/0/AndroidIDEProjects/Encryptor/app/build/intermediates/cxx/Debug/714v2c10/obj/arm64-v8a
