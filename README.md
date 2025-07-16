@@ -86,7 +86,7 @@ Facing a bug or issue?
 
 ## 📦 Download
 
-📥 **[Download the latest release here](https://github.com/ShafiqulIslamShamim/Encryptor/releases/tag/v2.3)**
+📥 **[Download the latest release here](https://github.com/ShafiqulIslamShamim/Encryptor/releases/tag/v2.5)**
 
 ---
 

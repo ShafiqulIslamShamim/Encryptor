@@ -2,6 +2,12 @@ plugins {
     id 'com.android.application'
 }
 
+def keystorePropertiesFile = file("keystore/signing.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace 'com.decryptor.encryptor'
     compileSdk 34
@@ -11,18 +17,28 @@ android {
         applicationId 'com.decryptor.encryptor'
         minSdk 26
         targetSdk 36
-        versionCode 15
-        versionName '2.4'
+        versionCode 16
+        versionName '2.5'
 
         vectorDrawables {
             useSupportLibrary true
         }
 
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+            }
+        }
     }
 
     signingConfigs {
         release {
-            
+            if (keystoreProperties['STORE_FILE']) {
+    storeFile file(keystoreProperties['STORE_FILE'])
+    storePassword keystoreProperties['STORE_PASSWORD']
+    keyAlias keystoreProperties['KEY_ALIAS']
+    keyPassword keystoreProperties['KEY_PASSWORD']
+}
         }
     }
 
@@ -42,19 +58,13 @@ android {
     buildFeatures {
         viewBinding true
     }
-    
-    
+
     externalNativeBuild {
         cmake {
-            path file('src/main/cpp/CMakeLists.txt')
+            path file("src/main/cpp/CMakeLists.txt")
         }
     }
-    
 }
-
-//tasks.withType(JavaCompile).configureEach {
-//    options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
-// }
 
 dependencies {
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.14.0'
