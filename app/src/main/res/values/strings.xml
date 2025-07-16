@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Encryptor</string>
+	<string name="title_activity_main">MAIN_ACTIVITY</string>
+    <string name="reload">Reload</string>
+    <string name="show">Show</string>
+    <string name="converter">Converter</string>
+    <string name="data">Data</string>
+    <string name="result">Result</string>
+        <string name="copy">Copy</string>
+    <string name="cut">Cut</string>
+        <string name="paste">Paste</string>
+    <string name="value">Value</string>
+    <string name="background">Background</string>
+        <string name="search_reset">Reset</string>
+        <string name="copied">Copied successfully</string>
+     <string name="press_back_again">Press back again to exit</string>
+	 <string name="settings">Settings</string>
+   <string name="shortcut_main_short">Home</string>
+<string name="shortcut_main_long">Open Main Screen</string>
+<string name="shortcut_settings_short">Settings</string>
+<string name="shortcut_settings_long">Open Settings</string>
+</resources>

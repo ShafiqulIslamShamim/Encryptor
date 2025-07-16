@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>  <PreferenceScreen  
+xmlns:android="http://schemas.android.com/apk/res/android"  
+android:key="main_settings"  
+android:title="Settings">
+
+<PreferenceScreen  
+android:icon="@drawable/android_24px"
+    android:key="pref_screen_system_key"  
+    android:title="System">
+    <com.decryptor.encryptor.MaterialListPreference
+            android:icon="@drawable/routine_24px"
+            android:key="theme_preference"
+            android:title="App theme"
+            android:summary="%s"
+            android:entries="@array/theme_options"
+            android:entryValues="@array/theme_option_values"
+            android:defaultValue="0"/>
+            
+    <com.decryptor.encryptor.StringSwitchPreference
+    android:icon="@drawable/code_24px"
+    android:key="enable_logcat"
+    android:title="Enable Logcat"
+    android:summary="Turn on to enable logcat logging"
+    android:defaultValue="false" />        
+    </PreferenceScreen>
+
+<PreferenceScreen
+android:icon="@drawable/encrypted_24px"  
+    android:key="pref_screen_encryption_key"  
+    android:title="Encryption">
+    
+    <com.decryptor.encryptor.MaterialListPreference  
+    android:icon="@drawable/autorenew_24px"  
+    android:key="converter_select"  
+    android:title="Select conversation"  
+    android:summary="%s"  
+    android:entries="@array/conversion_options"  
+    android:entryValues="@array/conversion_options_entryvalue"  
+    android:defaultValue="27" />
+    
+    
+    <com.decryptor.encryptor.StringSwitchPreference
+    android:icon="@drawable/swipe_vertical_24px"
+    android:key="enable_scrollable_layout"
+    android:title="Scrollable text layout"
+    android:summary="Makes the layout scrollable to show full text without scrolling inside individual preferences."
+    android:defaultValue="false" />  
+    </PreferenceScreen>
+
+<PreferenceScreen  
+android:icon="@drawable/info_24px"
+    android:key="pref_screen_info_key"  
+    android:title="About info">
+    <com.decryptor.encryptor.AboutInfoPreference
+        android:key="pref_about_info_key"
+        android:title=""
+        android:summary="" />
+    </PreferenceScreen>
+    
+</PreferenceScreen>

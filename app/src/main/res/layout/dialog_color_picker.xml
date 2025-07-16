@@ -1,0 +1,57 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <com.decryptor.encryptor.CustomColorPickerView
+        android:id="@+id/colorPickerView"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginBottom="16dp" />
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="22dp">
+
+    <View
+        android:id="@+id/oldColorPreview"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="→"
+        android:textSize="18sp"
+        
+        android:layout_marginHorizontal="8dp"
+        android:gravity="center" />
+
+    <View
+        android:id="@+id/newColorPreview"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="30dp" />
+</LinearLayout>
+
+    <EditText
+        android:id="@+id/hexEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="#RRGGBBAA"
+        android:inputType="text" />
+        
+    <EditText
+        android:id="@+id/smaliEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="#RRGGBBAA"
+        android:inputType="text" />    
+        
+</LinearLayout>

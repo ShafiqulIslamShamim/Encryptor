@@ -1,0 +1,12 @@
+<resources>
+    <item name="converterEditText1" type="id" />
+    <item name="converterImageView1" type="id" />
+    <item name="converterImageView3" type="id" />
+    <item name="converterSpinner1" type="id" />
+    <item name="converterEditText2" type="id" />
+    <item name="converterImageView2" type="id" />
+    <item name="converterImageView4" type="id" />
+        <item type="id" name="reset" />
+		<item type="id" name="settings" />
+		
+</resources>

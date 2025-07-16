@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/storage/emulated/0/AndroidIDEProjects/Encryptor/app/.cxx/Debug/714v2c10/armeabi-v7a",
+  "command": "/data/user/0/com.itsaky.androidide/files/home/android-sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-arm64/bin/clang++ --target=armv7-none-linux-androideabi26 --sysroot=/data/user/0/com.itsaky.androidide/files/home/android-sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-arm64/sysroot -Dnative_lib_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -o CMakeFiles/native-lib.dir/native-lib.cpp.o -c /storage/emulated/0/AndroidIDEProjects/Encryptor/app/src/main/cpp/native-lib.cpp",
+  "file": "/storage/emulated/0/AndroidIDEProjects/Encryptor/app/src/main/cpp/native-lib.cpp"
+}
+]
