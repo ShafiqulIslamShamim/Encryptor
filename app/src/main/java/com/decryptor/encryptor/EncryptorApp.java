@@ -3,7 +3,7 @@ package com.decryptor.encryptor;
 import android.app.Application;
 import android.content.Context;
 
-public class MyApp extends Application {
+public class EncryptorApp extends Application {
   private static Context appContext;
 
   @Override

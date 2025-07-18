@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 import com.google.android.material.checkbox.MaterialCheckBox;
@@ -24,48 +25,36 @@ public class PasswordManager {
   private static final String PREFS_NAME = "PrivatePrefs";
   private static final String PASSWORD_KEY = "password_key";
   private static final String PRIVATE_KEY = "private_key";
-
-  public final SharedPreferences prefs;
-  public boolean passwordSet;
-  public final Context context;
-  public String alias;
-  public boolean privateKeySet;
+  private static SharedPreferences prefs = null;
   private static AlertDialog currentDialog = null;
 
-  public PasswordManager(Context context) {
-    this.context = context;
-    this.prefs = initializeEncryptedSharedPreferences();
-    this.passwordSet = prefs.contains(PASSWORD_KEY);
-    this.privateKeySet = prefs.contains(PRIVATE_KEY);
-    this.alias = prefs.getString(PRIVATE_KEY, "");
-    Log.d("PasswordManager", "passwordSet: " + passwordSet + ", privateKeySet: " + privateKeySet);
-  }
-
-  private SharedPreferences initializeEncryptedSharedPreferences() {
-    Log.d("PasswordManager", "Initializing EncryptedSharedPreferences");
+  // Initialize EncryptedSharedPreferences and store in static field
+  public static void init(Context context) {
+    Log.d("PasswordManager", "Initializing EncryptedSharedPreferences via init");
     try {
       String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
       Log.d("PasswordManager", "Master key alias: " + masterKeyAlias);
-      return EncryptedSharedPreferences.create(
-          PREFS_NAME,
-          masterKeyAlias,
-          context,
-          EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-          EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
-    } catch (GeneralSecurityException | IOException e) {
-      Log.e("PasswordManager", "Error initializing EncryptedSharedPreferences", e);
-      if (e instanceof javax.crypto.AEADBadTagException) {
-        Log.w("PasswordManager", "Clearing corrupted SharedPreferences due to AEADBadTagException");
-        // Clear corrupted SharedPreferences file
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit().clear().apply();
-        try {
-          String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
-          return EncryptedSharedPreferences.create(
+      prefs =
+          EncryptedSharedPreferences.create(
               PREFS_NAME,
               masterKeyAlias,
               context,
               EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
               EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
+    } catch (GeneralSecurityException | IOException e) {
+      Log.e("PasswordManager", "Error initializing EncryptedSharedPreferences", e);
+      if (e instanceof javax.crypto.AEADBadTagException) {
+        Log.w("PasswordManager", "Clearing corrupted SharedPreferences due to AEADBadTagException");
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit().clear().apply();
+        try {
+          String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+          prefs =
+              EncryptedSharedPreferences.create(
+                  PREFS_NAME,
+                  masterKeyAlias,
+                  context,
+                  EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                  EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
         } catch (GeneralSecurityException | IOException ex) {
           Log.e(
               "PasswordManager",
@@ -80,22 +69,62 @@ public class PasswordManager {
     }
   }
 
-  public boolean isPasswordSet() {
-    return passwordSet;
+  public static boolean isPasswordSet() {
+    if (prefs == null) {
+      Log.e("PasswordManager", "SharedPreferences not initialized. Call init() first.");
+      throw new IllegalStateException(
+          "SharedPreferences not initialized. Call PasswordManager.init() first.");
+    }
+    return prefs.contains(PASSWORD_KEY);
   }
 
-  public String getPrivateKey() {
-    return alias;
+  public static boolean isPrivateKeySet() {
+    if (prefs == null) {
+      Log.e("PasswordManager", "SharedPreferences not initialized. Call init() first.");
+      throw new IllegalStateException(
+          "SharedPreferences not initialized. Call PasswordManager.init() first.");
+    }
+    return prefs.contains(PRIVATE_KEY);
+  }
+
+  public static String getPrivateKey() {
+    if (prefs == null) {
+      Log.e("PasswordManager", "SharedPreferences not initialized. Call init() first.");
+      throw new IllegalStateException(
+          "SharedPreferences not initialized. Call PasswordManager.init() first.");
+    }
+    return prefs.getString(PRIVATE_KEY, "");
   }
 
   public static void dismissCurrentDialog() {
     if (currentDialog != null && currentDialog.isShowing()) {
-      currentDialog.dismiss();
+      try {
+        Context context = currentDialog.getContext();
+        if (context instanceof AppCompatActivity) {
+          AppCompatActivity activity = (AppCompatActivity) context;
+          if (!activity.isFinishing() && !activity.isDestroyed()) {
+            currentDialog.dismiss();
+          }
+        } else {
+          currentDialog.dismiss();
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally {
+        currentDialog = null;
+      }
+    } else {
       currentDialog = null;
     }
   }
 
-  public void showSetPasswordDialog() {
+  public static void showSetPasswordDialog(Context context) {
+    if (prefs == null) {
+      Log.e("PasswordManager", "SharedPreferences not initialized. Call init() first.");
+      throw new IllegalStateException(
+          "SharedPreferences not initialized. Call PasswordManager.init() first.");
+    }
+
     dismissCurrentDialog();
 
     TextInputLayout textInputLayout = new TextInputLayout(context);
@@ -157,10 +186,9 @@ public class PasswordManager {
               } else {
                 textInputLayout.setError(null);
                 prefs.edit().putString(PASSWORD_KEY, password).apply();
-                passwordSet = true;
                 dialog.dismiss();
                 currentDialog = null;
-                showPrivateKeyDialog();
+                showPrivateKeyDialog(context);
               }
             });
 
@@ -177,7 +205,13 @@ public class PasswordManager {
             });
   }
 
-  public void showPasswordPrompt() {
+  public static void showPasswordPrompt(Context context) {
+    if (prefs == null) {
+      Log.e("PasswordManager", "SharedPreferences not initialized. Call init() first.");
+      throw new IllegalStateException(
+          "SharedPreferences not initialized. Call PasswordManager.init() first.");
+    }
+
     TextInputLayout textInputLayout = new TextInputLayout(context);
     textInputLayout.setHint("Enter password");
     TextInputEditText input = new TextInputEditText(context);
@@ -195,7 +229,6 @@ public class PasswordManager {
 
     AlertDialog dialog =
         new MaterialAlertDialogBuilder(context)
-            //  .setTitle("Enter Password")
             .setCustomTitle(DialogUtils.createStyledDialogTitle(context, "Enter Password"))
             .setView(layout)
             .setCancelable(false)
@@ -205,6 +238,7 @@ public class PasswordManager {
             .create();
 
     dialog.show();
+    currentDialog = dialog;
 
     showPassword.setOnCheckedChangeListener(
         (buttonView, isChecked) -> {
@@ -224,8 +258,9 @@ public class PasswordManager {
               String entered = input.getText().toString();
               String savedPassword = prefs.getString(PASSWORD_KEY, "");
               if (entered.equals(savedPassword)) {
-                showPrivateKeyDialog();
+                showPrivateKeyDialog(context);
                 dialog.dismiss();
+                currentDialog = null;
               } else {
                 textInputLayout.setError("Incorrect password");
               }
@@ -235,9 +270,7 @@ public class PasswordManager {
         .getButton(AlertDialog.BUTTON_NEUTRAL)
         .setOnClickListener(
             v -> {
-              // Clear all SharedPreferences data
               prefs.edit().clear().apply();
-              // Delete the master key
               try {
                 java.security.KeyStore keyStore =
                     java.security.KeyStore.getInstance("AndroidKeyStore");
@@ -247,11 +280,10 @@ public class PasswordManager {
               } catch (Exception e) {
                 Log.e("PasswordManager", "Failed to delete master key", e);
               }
-              passwordSet = false;
-              privateKeySet = false;
-              alias = "";
+              init(context); // Reinitialize prefs immediately after reset
               Toast.makeText(context, "Password and private key reset", Toast.LENGTH_SHORT).show();
               dialog.dismiss();
+              currentDialog = null;
             });
 
     dialog
@@ -259,10 +291,17 @@ public class PasswordManager {
         .setOnClickListener(
             v -> {
               dialog.dismiss();
+              currentDialog = null;
             });
   }
 
-  public void showPrivateKeyDialog() {
+  public static void showPrivateKeyDialog(Context context) {
+    if (prefs == null) {
+      Log.e("PasswordManager", "SharedPreferences not initialized. Call init() first.");
+      throw new IllegalStateException(
+          "SharedPreferences not initialized. Call PasswordManager.init() first.");
+    }
+
     dismissCurrentDialog();
 
     TextInputLayout textInputLayout = new TextInputLayout(context);

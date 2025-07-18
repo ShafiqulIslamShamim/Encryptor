@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.*;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,11 +35,27 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    applyLocalTheme(); // 👈 Apply local theme
+
     // ✅ Enable edge-to-edge
     WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-
     super.onCreate(savedInstanceState);
-    applyLocalTheme(); // 👈 Apply local theme
+
+    // Inside your Activity (e.g., in onCreate)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT <= 34) {
+      Window window = getWindow();
+
+      // Set status bar color
+      TypedValue typedValue = new TypedValue();
+      getTheme()
+          .resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true);
+      int colorSurface = typedValue.data;
+      window.setStatusBarColor(colorSurface);
+
+      // Set navigation bar color
+      window.setNavigationBarColor(colorSurface);
+    }
+
     context = this;
 
     OTAUpdateHelper.checkForUpdatesIfDue(context);
@@ -48,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         LogcatSaver.RunLog(this); // Pass context since LogcatSaver now uses SAF
       }
     }
+
+    PasswordManager.init(this);
 
     // Initialize layout
     uiInitializer = new UIInitializer(this);
@@ -212,12 +233,13 @@ public class MainActivity extends AppCompatActivity {
       startActivity(new Intent(this, SettingsActivity.class));
       return true;
     } else if (item.getItemId() == R.id.action_private_key) {
-      PasswordManager passwordManager = new PasswordManager(this);
-      if (!passwordManager.isPasswordSet()) {
-        passwordManager.showSetPasswordDialog();
+
+      if (!PasswordManager.isPrivateKeySet()) {
+        PasswordManager.showSetPasswordDialog(this);
       } else {
-        passwordManager.showPasswordPrompt();
+        PasswordManager.showPasswordPrompt(this);
       }
+
       return true;
     } else if (item.getItemId() == R.id.action_pick_color) {
       showColorPickerDialog();

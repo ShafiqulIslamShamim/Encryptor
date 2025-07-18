@@ -3,8 +3,11 @@ package com.decryptor.encryptor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -42,10 +45,26 @@ public class SettingsActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    applyLocalTheme();
     // ✅ Enable edge-to-edge
     WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
     super.onCreate(savedInstanceState);
-    applyLocalTheme();
+
+    // Inside your Activity (e.g., in onCreate)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT <= 34) {
+      Window window = getWindow();
+
+      // Set status bar color
+      TypedValue typedValue = new TypedValue();
+      getTheme()
+          .resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true);
+      int colorSurface = typedValue.data;
+      window.setStatusBarColor(colorSurface);
+
+      // Set navigation bar color
+      window.setNavigationBarColor(colorSurface);
+    }
+
     setContentView(R.layout.activity_settings);
 
     // ✅ Apply insets to root view

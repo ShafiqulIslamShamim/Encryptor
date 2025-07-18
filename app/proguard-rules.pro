@@ -20,19 +20,3 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# Preserve SecureCrypto class and its methods
--keep class com.decryptor.encryptor.SecureCrypto {
-    public static java.lang.String encryptData(java.lang.String, java.lang.String);
-    public static java.lang.String decryptData(java.lang.String, java.lang.String);
-}
-
-# Preserve FastEncryption class and its methods
--keep class com.decryptor.encryptor.FastEncryption {
-    public static java.lang.String getStrForEncryption(java.lang.String, java.lang.String);
-    public static java.lang.String getStrForDecryption(java.lang.String, java.lang.String);
-}
-
-# Optional: Keep the EncryptionUtils class (if used in Java layer too)
--keep class com.decryptor.encryptor.EncryptionUtils {
-    <methods>;
-}

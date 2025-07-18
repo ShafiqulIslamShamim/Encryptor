@@ -10,25 +10,19 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace 'com.decryptor.encryptor'
-    compileSdk 34
-    ndkVersion "27.2.12479018"
+    compileSdk 35
 
     defaultConfig {
         applicationId 'com.decryptor.encryptor'
         minSdk 26
-        targetSdk 36
-        versionCode 16
-        versionName '2.5'
+        targetSdk 35
+        versionCode 20
+        versionName '2.9'
 
         vectorDrawables {
             useSupportLibrary true
         }
 
-        externalNativeBuild {
-            cmake {
-                arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
-            }
-        }
     }
 
     signingConfigs {
@@ -59,11 +53,6 @@ android {
         viewBinding true
     }
 
-    externalNativeBuild {
-        cmake {
-            path file("src/main/cpp/CMakeLists.txt")
-        }
-    }
 }
 
 dependencies {

@@ -647,14 +647,13 @@ public class ConversionManager {
           break;
 
         case 27: //  Text Encode/Decode with private key
-          PasswordManager passwordManager = new PasswordManager(this.activity);
-          String alias = passwordManager.getPrivateKey();
+          String alias = PasswordManager.getPrivateKey();
 
           try {
 
             if (!isInputFocused) {
 
-              String decoded = EncryptionUtils.complexDecryptDeta(result, alias);
+              String decoded = SecureCrypto.decryptData(result, alias);
 
               isProgrammaticTextChange = true;
               inputEditText.setText(decoded);
@@ -663,7 +662,7 @@ public class ConversionManager {
 
               if (!TextUtils.isEmpty(input)) {
 
-                String encoded = EncryptionUtils.complexEncryptDeta(input, alias);
+                String encoded = SecureCrypto.encryptData(input, alias);
 
                 isProgrammaticTextChange = true;
                 resultEditText.setText(encoded);
@@ -673,8 +672,8 @@ public class ConversionManager {
 
           } catch (Exception e) {
             errorHandler.highlightError(inputEditText, resultEditText);
-            if (!passwordManager.isPasswordSet() && TextUtils.isEmpty(alias)) {
-              passwordManager.showSetPasswordDialog();
+            if (!PasswordManager.isPrivateKeySet() && TextUtils.isEmpty(alias)) {
+              PasswordManager.showSetPasswordDialog(activity);
             }
           }
 
@@ -727,14 +726,11 @@ public class ConversionManager {
           break;
 
         case 30: //  Text Encode/Decode with private key
-          PasswordManager passwordManagerTwice = new PasswordManager(this.activity);
-          String aliastwice = passwordManagerTwice.getPrivateKey();
-
+          String aliastwice = PasswordManager.getPrivateKey();
           try {
-
             if (!isInputFocused) {
 
-              String decoded = EncryptionUtils.easyDecryptDeta(result, aliastwice);
+              String decoded = FastEncryption.getStrForDecryption(result, aliastwice);
 
               isProgrammaticTextChange = true;
               inputEditText.setText(decoded);
@@ -743,7 +739,7 @@ public class ConversionManager {
 
               if (!TextUtils.isEmpty(input)) {
 
-                String encoded = EncryptionUtils.easyEncryptDeta(input, aliastwice);
+                String encoded = FastEncryption.getStrForEncryption(input, aliastwice);
 
                 isProgrammaticTextChange = true;
                 resultEditText.setText(encoded);
@@ -753,8 +749,8 @@ public class ConversionManager {
 
           } catch (Exception e) {
             errorHandler.highlightError(inputEditText, resultEditText);
-            if (!passwordManagerTwice.isPasswordSet() && TextUtils.isEmpty(aliastwice)) {
-              passwordManagerTwice.showSetPasswordDialog();
+            if (!PasswordManager.isPrivateKeySet() && TextUtils.isEmpty(aliastwice)) {
+              PasswordManager.showSetPasswordDialog(activity);
             }
           }
 
