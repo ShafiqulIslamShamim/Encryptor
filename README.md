@@ -86,7 +86,7 @@ Facing a bug or issue?
 
 ## 📦 Download
 
-📥 **[Download the latest release here](https://github.com/ShafiqulIslamShamim/Encryptor/releases/tag/v2.5)**  
+📥 **[Download the latest release here](https://github.com/ShafiqulIslamShamim/Encryptor/releases/tag/v3.0)**  
 📲 **[Get it on Google Play](https://play.google.com/store/apps/details?id=com.decryptor.encryptor)**
 
 ---
@@ -94,31 +94,31 @@ Facing a bug or issue?
 ## 📸 Screenshots
 
 ### 🏠 Main Screen
-![Main Activity](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/Screenshots/Main_activity.jpg)
-
-### 🎨 Color Picker
-![Color Picker](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/Screenshots/ColorPicker.jpg)
-
-### 💬 Conversation Options
-![Conversation Options](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/Screenshots/ConversationOptions.jpg)
-
-### ⚙️ Encryption Settings
-![Encryption Settings](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/Screenshots/SettingsEncryption.jpg)
-
-### ℹ️ Info Settings
-![Info Settings](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/Screenshots/SettingsInfo.jpg)
-
-### 📱 System Theme Settings
-![System Settings](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/Screenshots/SystemSettings.jpg)
+![Main Activity](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/screenshots/Main_activity.jpg)
 
 ### 🧩 Full Settings Activity
-![Settings Activity](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/Screenshots/settingsActivity.jpg)
+![Settings Activity](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/screenshots/settingsActivity.jpg)
+
+### 📱 System Theme Settings
+![System Settings](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/screenshots/SystemSettings.jpg)
+
+### ⚙️ Encryption Settings
+![Encryption Settings](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/screenshots/SettingsEncryption.jpg)
+
+### 💬 Conversation Options
+![Conversation Options](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/screenshots/ConversationOptions.jpg)
+
+### 🎨 Color Picker
+![Color Picker](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/screenshots/ColorPicker.jpg)
+
+### ℹ️ Info Settings
+![Info Settings](https://github.com/ShafiqulIslamShamim/Encryptor/blob/main/screenshots/SettingsInfo.jpg)
 
 ---
 
 ## 🔧 Tech Stack
 
-- **Language:** Java & C++
+- **Language:** Java
 - **Platform:** Android  
 - **Min SDK:** *26*
 
@@ -133,7 +133,7 @@ Facing a bug or issue?
 
 ## 🛡️ License
 
-This project is licensed under the [MIT License](LICENSE)
+This project is licensed under the [Apache License](LICENSE)
 
 ---
 

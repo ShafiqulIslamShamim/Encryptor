@@ -164,7 +164,7 @@ public class OTAUpdateHelper {
       String changelog = parts.get(2);
       String localVersion = getVersionName(context);
 
-      if (compareVersions(localVersion, remoteVersion) > 0) {
+      if (compareVersions(localVersion, remoteVersion) >= 0) {
         if (!autoCheck) {
           new MaterialAlertDialogBuilder(context)
               //  .setTitle("No Update Available")
