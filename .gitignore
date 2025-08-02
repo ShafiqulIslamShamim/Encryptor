@@ -2,7 +2,7 @@
 # ✅ Built application files
 *.apk
 *.aab
-*.aar
+# *.aar
 *.ap_
 
 # ✅ ART/Dalvik VM & Java class files
