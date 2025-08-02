@@ -1,0 +1,6 @@
+<!-- res/layout/menu_spacer.xml -->
+<Space
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="6dp"
+  android:layout_height="match_parent"
+/>

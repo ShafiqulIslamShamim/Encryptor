@@ -205,6 +205,29 @@ public class PasswordManager {
             });
   }
 
+  public static void startBiometricAuth(Context context, AppCompatActivity activity) {
+    BiometricAuthHelper.authenticate(
+        context,
+        activity,
+        new BiometricAuthHelper.AuthCallback() {
+          @Override
+          public void onAuthSuccess() {
+            // ✅ Verified successfully
+            showPrivateKeyDialog(context);
+          }
+
+          @Override
+          public void onAuthFailed() {
+            // ❌ Fingerprint failed
+          }
+
+          @Override
+          public void onAuthError(String error) {
+            // ⚠️ User cancelled or error
+          }
+        });
+  }
+
   public static void showPasswordPrompt(Context context) {
     if (prefs == null) {
       Log.e("PasswordManager", "SharedPreferences not initialized. Call init() first.");
@@ -357,6 +380,7 @@ public class PasswordManager {
                 dialog.dismiss();
                 currentDialog = null;
                 if (MainActivity.eventHandler != null) {
+                  MainActivity.eventHandler.updateErrorTextColor();
                   MainActivity.eventHandler.setupPreferences();
                 }
               }

@@ -25,5 +25,10 @@
     name="DashchanMonet.Button"
     parent="@style/Widget.Material3.Button"
   />
+  
+  <style name="CustomToolbarTitle" parent="TextAppearance.Material3.TitleLarge">
+    <item name="android:textSize">25sp</item> <!-- Increase size as needed -->
+    <item name="android:textStyle">bold</item> <!-- Optional -->
+</style>
 
 </resources>

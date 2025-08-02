@@ -16,8 +16,8 @@ android {
         applicationId 'com.decryptor.encryptor'
         minSdk 26
         targetSdk 35
-        versionCode 21
-        versionName '3.0'
+        versionCode 23
+        versionName '3.2'
 
         vectorDrawables {
             useSupportLibrary true
@@ -63,4 +63,6 @@ dependencies {
     implementation 'androidx.security:security-crypto:1.1.0-alpha06'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "androidx.biometric:biometric:1.2.0-alpha04"
+    implementation(name: 'flexbox-3.0.0', ext: 'aar')
 }

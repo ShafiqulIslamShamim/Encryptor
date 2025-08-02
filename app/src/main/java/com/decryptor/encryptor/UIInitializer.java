@@ -1,26 +1,39 @@
 package com.decryptor.encryptor;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class UIInitializer {
   private static final String TAG = "UIInitializer";
   private final AppCompatActivity activity;
 
-  private EditText inputEditText;
-  private EditText resultEditText;
-  private ImageView copyInputImageView;
-  private ImageView copyResultImageView;
-  private ImageView pasteInputImageView;
-  private ImageView pasteResultImageView;
-  private ImageView reloadImageView;
+  private TextInputEditText inputEditText;
+  private TextInputEditText resultEditText;
+
+  private TextInputLayout inputEditTextLayout;
+  private TextInputLayout resultEditTextLayout;
+
+  private MaterialButton copyInputImageView;
+  private MaterialButton copyResultImageView;
+  private MaterialButton pasteInputImageView;
+  private MaterialButton pasteResultImageView;
+  private MaterialButton reloadImageView;
+
+  private MaterialButton exportInputImageView;
+  private MaterialButton exportResultImageView;
+  private MaterialButton shareInputImageView;
+  private MaterialButton shareResultImageView;
+
   private TextView labelEditText1;
   private TextView labelEditText2;
 
@@ -37,13 +50,23 @@ public class UIInitializer {
     }
     activity.setContentView(layoutId);
 
-    inputEditText = initializeView("converterEditText1", "id", EditText.class);
-    resultEditText = initializeView("converterEditText2", "id", EditText.class);
-    copyInputImageView = initializeView("converterImageView1", "id", ImageView.class);
-    copyResultImageView = initializeView("converterImageView2", "id", ImageView.class);
-    pasteInputImageView = initializeView("converterImageView3", "id", ImageView.class);
-    pasteResultImageView = initializeView("converterImageView4", "id", ImageView.class);
-    reloadImageView = initializeView("converterImageView5", "id", ImageView.class);
+    inputEditText = initializeView("converterEditText1", "id", TextInputEditText.class);
+    resultEditText = initializeView("converterEditText2", "id", TextInputEditText.class);
+
+    inputEditTextLayout = initializeView("textInputLayout1", "id", TextInputLayout.class);
+    resultEditTextLayout = initializeView("textInputLayout2", "id", TextInputLayout.class);
+
+    copyInputImageView = initializeView("converterImageView1", "id", MaterialButton.class);
+    copyResultImageView = initializeView("converterImageView2", "id", MaterialButton.class);
+    pasteInputImageView = initializeView("converterImageView3", "id", MaterialButton.class);
+    pasteResultImageView = initializeView("converterImageView4", "id", MaterialButton.class);
+
+    exportInputImageView = initializeView("exportImageView1", "id", MaterialButton.class);
+    exportResultImageView = initializeView("exportImageView2", "id", MaterialButton.class);
+    shareInputImageView = initializeView("shareImageView1", "id", MaterialButton.class);
+    shareResultImageView = initializeView("shareImageView2", "id", MaterialButton.class);
+
+    reloadImageView = initializeView("converterImageView5", "id", MaterialButton.class);
     labelEditText1 = initializeView("labelEditText1", "id", TextView.class);
     labelEditText2 = initializeView("labelEditText2", "id", TextView.class);
 
@@ -53,6 +76,10 @@ public class UIInitializer {
         || copyResultImageView == null
         || pasteInputImageView == null
         || pasteResultImageView == null
+        || exportInputImageView == null
+        || exportResultImageView == null
+        || shareInputImageView == null
+        || shareResultImageView == null
         || reloadImageView == null
         || labelEditText1 == null
         || labelEditText2 == null) {
@@ -73,6 +100,10 @@ public class UIInitializer {
     copyResultImageView.setClickable(true);
     pasteInputImageView.setClickable(true);
     pasteResultImageView.setClickable(true);
+    exportInputImageView.setClickable(true);
+    exportResultImageView.setClickable(true);
+    shareInputImageView.setClickable(true);
+    shareResultImageView.setClickable(true);
     reloadImageView.setClickable(true);
 
     return true;
@@ -129,26 +160,42 @@ public class UIInitializer {
 
     activity.getMenuInflater().inflate(menuId, menu);
 
-    // Reload button
-    int resetId = activity.getResources().getIdentifier("reset", "id", activity.getPackageName());
-    int reloadIconId =
-        activity.getResources().getIdentifier("ic_reload", "drawable", activity.getPackageName());
-    if (resetId != 0 && reloadIconId != 0) {
-      menu.findItem(resetId).setIcon(reloadIconId);
-    } else {
-      Log.e(TAG, "Menu item 'reset' or drawable 'ic_reload' not found");
-    }
+    // Pick Color
+    MenuItem pickColorItem = menu.findItem(R.id.action_pick_color);
+    View pickColorView = pickColorItem.getActionView();
+    ImageView pickColorIcon = pickColorView.findViewById(R.id.icon_image);
+    pickColorIcon.setOnClickListener(
+        v -> {
+          MainActivity mainActivity = (MainActivity) activity;
+          mainActivity.showColorPickerDialog();
+        });
 
-    // Settings button
-    int settingsId =
-        activity.getResources().getIdentifier("settings", "id", activity.getPackageName());
-    int settingsIconId =
-        activity.getResources().getIdentifier("ic_settings", "drawable", activity.getPackageName());
-    if (settingsId != 0 && settingsIconId != 0) {
-      menu.findItem(settingsId).setIcon(settingsIconId);
-    } else {
-      Log.e(TAG, "Menu item 'settings' or drawable 'ic_settings' not found");
-    }
+    // Private Key
+    MenuItem privateKeyItem = menu.findItem(R.id.action_private_key);
+    View privateKeyView = privateKeyItem.getActionView();
+    ImageView privateKeyIcon = privateKeyView.findViewById(R.id.icon_image);
+    privateKeyIcon.setOnClickListener(
+        v -> {
+          PasswordManager.startBiometricAuth(activity, activity);
+        });
+
+    // Reset
+    MenuItem resetItem = menu.findItem(R.id.reset);
+    View resetView = resetItem.getActionView();
+    ImageView resetIcon = resetView.findViewById(R.id.icon_image);
+    resetIcon.setOnClickListener(
+        v -> {
+          eventHandler.handleReset();
+        });
+
+    // Settings
+    MenuItem settingsItem = menu.findItem(R.id.settings);
+    View settingsView = settingsItem.getActionView();
+    ImageView settingsIcon = settingsView.findViewById(R.id.icon_image);
+    settingsIcon.setOnClickListener(
+        v -> {
+          activity.startActivity(new Intent(activity, SettingsActivity.class));
+        });
 
     // Visibility toggle based on converter_select
     int selectedItemPositionpass = SharedPrefValues.getValue("converter_select", 27);
@@ -251,32 +298,56 @@ public class UIInitializer {
   }
 
   // Getters
-  public EditText getInputEditText() {
+  public TextInputEditText getInputEditText() {
     return inputEditText;
   }
 
-  public EditText getResultEditText() {
+  public TextInputEditText getResultEditText() {
     return resultEditText;
   }
 
-  public ImageView getCopyInputImageView() {
+  public TextInputLayout getInputEditTextLayout() {
+    return inputEditTextLayout;
+  }
+
+  public TextInputLayout getResultEditTextLayout() {
+    return resultEditTextLayout;
+  }
+
+  public MaterialButton getCopyInputImageView() {
     return copyInputImageView;
   }
 
-  public ImageView getCopyResultImageView() {
+  public MaterialButton getCopyResultImageView() {
     return copyResultImageView;
   }
 
-  public ImageView getPasteInputImageView() {
+  public MaterialButton getPasteInputImageView() {
     return pasteInputImageView;
   }
 
-  public ImageView getPasteResultImageView() {
+  public MaterialButton getPasteResultImageView() {
     return pasteResultImageView;
   }
 
-  public ImageView getReloadImageView() {
+  public MaterialButton getReloadImageView() {
     return reloadImageView;
+  }
+
+  public MaterialButton getExportInputImageView() {
+    return exportInputImageView;
+  }
+
+  public MaterialButton getExportResultImageView() {
+    return exportResultImageView;
+  }
+
+  public MaterialButton getShareInputImageView() {
+    return shareInputImageView;
+  }
+
+  public MaterialButton getShareResultImageView() {
+    return shareResultImageView;
   }
 
   public TextView getLabelEditText1() {

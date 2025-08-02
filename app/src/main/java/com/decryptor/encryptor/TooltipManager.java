@@ -8,10 +8,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.ImageView;
 import androidx.appcompat.widget.Toolbar;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
+import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,15 @@ public class TooltipManager {
   private final Runnable autoDismissRunnable;
 
   private Toolbar toolbar;
-  private ImageView imageCopy1, imagePaste1, imageCopy2, imagePaste2, imageReload;
+  private MaterialButton imageCopy1,
+      imagePaste1,
+      imageShare1,
+      imageExport1,
+      imageCopy2,
+      imagePaste2,
+      imageShare2,
+      imageExport2,
+      imageReload;
   private View InputEditText, OutputEditText;
 
   public TooltipManager(Activity activity) {
@@ -44,9 +52,17 @@ public class TooltipManager {
     InputEditText = activity.findViewById(R.id.converterEditText1);
     imageCopy1 = activity.findViewById(R.id.converterImageView1);
     imagePaste1 = activity.findViewById(R.id.converterImageView3);
+
+    imageShare1 = activity.findViewById(R.id.shareImageView1);
+    imageExport1 = activity.findViewById(R.id.exportImageView1);
+
     OutputEditText = activity.findViewById(R.id.converterEditText2);
     imageCopy2 = activity.findViewById(R.id.converterImageView2);
     imagePaste2 = activity.findViewById(R.id.converterImageView4);
+
+    imageShare2 = activity.findViewById(R.id.shareImageView2);
+    imageExport2 = activity.findViewById(R.id.exportImageView2);
+
     imageReload = activity.findViewById(R.id.converterImageView5);
   }
 
@@ -70,6 +86,10 @@ public class TooltipManager {
           addTooltip(imageCopy1, "Copy", "Copies the text from the input field.");
           addTooltip(imagePaste1, "Paste", "Pastes text from the clipboard into the input field.");
           addTooltip(
+              imageShare1, "Share", "Shares the text to other apps installed on your device.");
+          addTooltip(
+              imageExport1, "Export", "Saves the text to a user-selected location using SAF.");
+          addTooltip(
               OutputEditText,
               "Result Field",
               "Displays the converted result. You can also input converted text here to reverse it"
@@ -77,6 +97,10 @@ public class TooltipManager {
           addTooltip(imageCopy2, "Copy", "Copies the text from the result field.");
           addTooltip(imagePaste2, "Paste", "Pastes text from the clipboard into the result field.");
           addTooltip(imageReload, "Reload", "Regenerates and refreshes the output.");
+          addTooltip(
+              imageShare2, "Share", "Shares the text to other apps installed on your device.");
+          addTooltip(
+              imageExport2, "Export", "Saves the text to a user-selected location using SAF.");
           addTooltip(
               itemPrivateKey,
               "Private Key",

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Focused -->
+    <item
+    android:color="?attr/colorPrimaryContainer"
+    android:state_focused="true"
+  />
+    
+    <!-- Default (not focused) -->
+    <item android:color="?attr/colorOutline" />
+</selector>

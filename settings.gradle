@@ -2,7 +2,9 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
+        jcenter()
         mavenCentral()
+        
     }
 }
 
@@ -12,6 +14,10 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' } // ✅ Added here too (required for library)
+        
+        flatDir {
+        dirs 'app/libs'
+    }
     }
 }
 

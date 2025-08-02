@@ -4,32 +4,44 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.text.style.*;
 import android.util.Log;
-import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class ConversionManager {
   private static final String TAG = "ConversionManager";
   private final AppCompatActivity activity;
-  private final EditText inputEditText;
-  private final EditText resultEditText;
+  private final TextInputEditText inputEditText;
+  private final TextInputEditText resultEditText;
+
+  private final TextInputLayout inputEditTextLayout;
+  private final TextInputLayout resultEditTextLayout;
   private final ErrorHandler errorHandler;
   private boolean isProgrammaticTextChange = false;
 
   public ConversionManager(
       AppCompatActivity activity,
-      EditText inputEditText,
-      EditText resultEditText,
+      TextInputEditText inputEditText,
+      TextInputEditText resultEditText,
+      TextInputLayout inputEditTextLayout,
+      TextInputLayout resultEditTextLayout,
       ErrorHandler errorHandler) {
     this.activity = activity;
     this.inputEditText = inputEditText;
     this.resultEditText = resultEditText;
+
+    this.inputEditTextLayout = inputEditTextLayout;
+    this.resultEditTextLayout = resultEditTextLayout;
+
     this.errorHandler = errorHandler;
   }
 
   public void performConversion(boolean isInputFocused) {
     int selectedIndex = SharedPrefValues.getValue("converter_select", 27);
+
     String input = inputEditText.getText().toString();
     String result = resultEditText.getText().toString();
+
     boolean useHexFormat = SharedPrefValues.getValue("converter_hex", false); // Equivalent to a15
     String str9 = ""; // For handling negative number prefixes
 
@@ -43,7 +55,8 @@ public class ConversionManager {
               inputEditText.setText(decoded);
               isProgrammaticTextChange = false;
             } else {
-              errorHandler.highlightError(inputEditText, resultEditText);
+              errorHandler.highlightError(
+                  inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
               Log.e(TAG, "Base64 decode failed for input: " + result);
             }
           } else {
@@ -53,7 +66,8 @@ public class ConversionManager {
               resultEditText.setText(encoded);
               isProgrammaticTextChange = false;
             } else {
-              errorHandler.highlightError(inputEditText, resultEditText);
+              errorHandler.highlightError(
+                  inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
               Log.e(TAG, "Base64 encode failed for input: " + input);
             }
           }
@@ -94,7 +108,8 @@ public class ConversionManager {
             resultEditText.setText(md5);
             isProgrammaticTextChange = false;
           } else {
-            errorHandler.highlightError(inputEditText, resultEditText);
+            errorHandler.highlightError(
+                inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
             Log.e(TAG, "MD5 hash failed for input: " + input);
           }
           break;
@@ -106,7 +121,8 @@ public class ConversionManager {
             resultEditText.setText(sha1);
             isProgrammaticTextChange = false;
           } else {
-            errorHandler.highlightError(inputEditText, resultEditText);
+            errorHandler.highlightError(
+                inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
             Log.e(TAG, "SHA-1 hash failed for input: " + input);
           }
           break;
@@ -118,7 +134,8 @@ public class ConversionManager {
             resultEditText.setText(sha224);
             isProgrammaticTextChange = false;
           } else {
-            errorHandler.highlightError(inputEditText, resultEditText);
+            errorHandler.highlightError(
+                inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
             Log.e(TAG, "SHA-224 hash failed for input: " + input);
           }
           break;
@@ -130,7 +147,8 @@ public class ConversionManager {
             resultEditText.setText(sha256);
             isProgrammaticTextChange = false;
           } else {
-            errorHandler.highlightError(inputEditText, resultEditText);
+            errorHandler.highlightError(
+                inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
             Log.e(TAG, "SHA-256 hash failed for input: " + input);
           }
           break;
@@ -142,7 +160,8 @@ public class ConversionManager {
             resultEditText.setText(sha384);
             isProgrammaticTextChange = false;
           } else {
-            errorHandler.highlightError(inputEditText, resultEditText);
+            errorHandler.highlightError(
+                inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
             Log.e(TAG, "SHA-384 hash failed for input: " + input);
           }
           break;
@@ -154,7 +173,8 @@ public class ConversionManager {
             resultEditText.setText(sha512);
             isProgrammaticTextChange = false;
           } else {
-            errorHandler.highlightError(inputEditText, resultEditText);
+            errorHandler.highlightError(
+                inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
             Log.e(TAG, "SHA-512 hash failed for input: " + input);
           }
           break;
@@ -671,9 +691,10 @@ public class ConversionManager {
             }
 
           } catch (Exception e) {
-            errorHandler.highlightError(inputEditText, resultEditText);
+            errorHandler.highlightError(
+                inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
             if (!PasswordManager.isPrivateKeySet() && TextUtils.isEmpty(alias)) {
-              PasswordManager.showSetPasswordDialog(activity);
+              PasswordManager.startBiometricAuth(activity, activity);
             }
           }
 
@@ -748,9 +769,10 @@ public class ConversionManager {
             }
 
           } catch (Exception e) {
-            errorHandler.highlightError(inputEditText, resultEditText);
+            errorHandler.highlightError(
+                inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
             if (!PasswordManager.isPrivateKeySet() && TextUtils.isEmpty(aliastwice)) {
-              PasswordManager.showSetPasswordDialog(activity);
+              PasswordManager.startBiometricAuth(activity, activity);
             }
           }
 
@@ -777,7 +799,8 @@ public class ConversionManager {
 
     } catch (Exception e) {
       Log.e(TAG, "Conversion error: " + e.getMessage());
-      errorHandler.highlightError(inputEditText, resultEditText);
+      errorHandler.highlightError(
+          inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
     }
   }
 

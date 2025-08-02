@@ -7,14 +7,14 @@
     <item
     android:id="@+id/action_pick_color"
     android:title="Pick color"
-    android:icon="@drawable/colors_24px"
+    app:actionLayout="@layout/menu_icon_pick_color"
     app:showAsAction="always"
   />
     
     <item
     android:id="@+id/action_private_key"
     android:title="Private Key"
-    android:icon="@drawable/password_24px"
+    app:actionLayout="@layout/menu_icon_private_key"
     app:showAsAction="always"
   />
     
@@ -24,16 +24,32 @@
     app:showAsAction="always"
     app:actionLayout="@layout/menu_switch_item"
   />
+  
+  <item
+    android:id="@+id/spacer2"
+    android:title=""
+    app:showAsAction="always"
+    app:actionLayout="@layout/menu_spacer"
+  />
 
     <item
-    android:icon="@drawable/ic_reload"
+    app:actionLayout="@layout/menu_icon_reload"
     android:id="@id/reset"
     android:title="@string/search_reset"
     app:showAsAction="always"
   />
+  
+  
+  
+  <item
+    android:id="@+id/spacer1"
+    android:title=""
+    app:showAsAction="always"
+    app:actionLayout="@layout/menu_spacer"
+  />
 
     <item
-    android:icon="@drawable/ic_settings"
+    app:actionLayout="@layout/menu_icon_settings"
     android:id="@id/settings"
     android:title="@string/settings"
     app:showAsAction="always"

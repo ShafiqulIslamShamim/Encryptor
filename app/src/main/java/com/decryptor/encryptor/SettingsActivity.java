@@ -3,9 +3,9 @@ package com.decryptor.encryptor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.content.res.Configuration;
+import android.graphics.*;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -46,24 +47,10 @@ public class SettingsActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     applyLocalTheme();
-    // ✅ Enable edge-to-edge
-    WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
     super.onCreate(savedInstanceState);
 
-    // Inside your Activity (e.g., in onCreate)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT <= 34) {
-      Window window = getWindow();
-
-      // Set status bar color
-      TypedValue typedValue = new TypedValue();
-      getTheme()
-          .resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true);
-      int colorSurface = typedValue.data;
-      window.setStatusBarColor(colorSurface);
-
-      // Set navigation bar color
-      window.setNavigationBarColor(colorSurface);
-    }
+    applySystemBarIconColors(getWindow());
 
     setContentView(R.layout.activity_settings);
 
@@ -124,6 +111,41 @@ public class SettingsActivity extends AppCompatActivity {
       default:
         setTheme(R.style.AppTheme);
         break;
+    }
+  }
+
+  private void applySystemBarIconColors(Window window) {
+    String themePref = SharedPrefValues.getValue("theme_preference", "0");
+
+    boolean isLightTheme;
+
+    switch (themePref) {
+      case "2": // Dark theme
+        isLightTheme = false;
+        break;
+      case "3": // Light theme
+        isLightTheme = true;
+        break;
+      default:
+        // Follow system theme
+        int nightModeFlags =
+            getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        isLightTheme = (nightModeFlags != Configuration.UI_MODE_NIGHT_YES);
+        break;
+    }
+
+    // Apply system UI bar settings
+    WindowCompat.setDecorFitsSystemWindows(window, false);
+    window.setStatusBarColor(Color.TRANSPARENT);
+    window.setNavigationBarColor(Color.TRANSPARENT);
+
+    WindowInsetsControllerCompat insetsController =
+        WindowCompat.getInsetsController(window, window.getDecorView());
+
+    if (insetsController != null) {
+      // true = dark icons, false = light icons
+      insetsController.setAppearanceLightStatusBars(isLightTheme);
+      insetsController.setAppearanceLightNavigationBars(isLightTheme);
     }
   }
 

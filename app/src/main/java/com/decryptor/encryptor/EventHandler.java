@@ -1,6 +1,7 @@
 package com.decryptor.encryptor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.Spannable;
@@ -9,8 +10,11 @@ import android.text.TextWatcher;
 import android.text.style.*;
 import android.view.View;
 import android.widget.*;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.color.MaterialColors;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class EventHandler {
   private static final String TAG = "EventHandler";
@@ -20,6 +24,7 @@ public class EventHandler {
   private final ConversionManager conversionManager;
   private final ErrorHandler errorHandler;
   private boolean isInputFocused = true;
+  private ActivityResultLauncher<Intent> createFileLauncher;
 
   public EventHandler(
       AppCompatActivity activity,
@@ -42,6 +47,20 @@ public class EventHandler {
   }
 
   public void setupListeners() {
+
+    // Register SAF launcher here (inside the click listener)
+    createFileLauncher =
+        activity.registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+              if (result.getResultCode() == activity.RESULT_OK && result.getData() != null) {
+
+                TextFileUtils.handleFileSaveResult(activity, result.getData());
+              } else {
+                Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show();
+              }
+            });
+
     // Click listener for copy/paste ImageViews
     View.OnClickListener clickListener =
         new View.OnClickListener() {
@@ -69,6 +88,26 @@ public class EventHandler {
                     .getResources()
                     .getIdentifier("converterImageView5", "id", activity.getPackageName());
 
+            int shareImageView1Id =
+                activity
+                    .getResources()
+                    .getIdentifier("shareImageView1", "id", activity.getPackageName());
+
+            int exportImageView1Id =
+                activity
+                    .getResources()
+                    .getIdentifier("exportImageView1", "id", activity.getPackageName());
+
+            int shareImageView2Id =
+                activity
+                    .getResources()
+                    .getIdentifier("shareImageView2", "id", activity.getPackageName());
+
+            int exportImageView2Id =
+                activity
+                    .getResources()
+                    .getIdentifier("exportImageView2", "id", activity.getPackageName());
+
             if (viewId == converterImageView1Id) {
               clipboardHandler.copyText(uiInitializer.getInputEditText(), "Input");
             } else if (viewId == converterImageView2Id) {
@@ -81,6 +120,37 @@ public class EventHandler {
               clipboardHandler.pasteText(uiInitializer.getResultEditText());
             } else if (viewId == converterImageView5Id) {
               isInputFocused = true;
+            } else if (viewId == shareImageView1Id) {
+              String inputText = uiInitializer.getInputEditText().getText().toString();
+              if (inputText.isEmpty()) {
+                Toast.makeText(activity, "No text found", Toast.LENGTH_SHORT).show();
+              } else {
+                TextFileUtils.shareText(activity, "Encryptor", inputText);
+              }
+
+            } else if (viewId == exportImageView1Id) {
+              String inputText = uiInitializer.getInputEditText().getText().toString();
+              if (inputText.isEmpty()) {
+                Toast.makeText(activity, "No text found", Toast.LENGTH_SHORT).show();
+              } else {
+                TextFileUtils.saveTextToFile(activity, createFileLauncher, inputText);
+              }
+
+            } else if (viewId == shareImageView2Id) {
+              String resultText = uiInitializer.getResultEditText().getText().toString();
+              if (resultText.isEmpty()) {
+                Toast.makeText(activity, "No text found", Toast.LENGTH_SHORT).show();
+              } else {
+                TextFileUtils.shareText(activity, "Encryptor", resultText);
+              }
+
+            } else if (viewId == exportImageView2Id) {
+              String resultText = uiInitializer.getResultEditText().getText().toString();
+              if (resultText.isEmpty()) {
+                Toast.makeText(activity, "No text found", Toast.LENGTH_SHORT).show();
+              } else {
+                TextFileUtils.saveTextToFile(activity, createFileLauncher, resultText);
+              }
             }
 
             conversionManager.performConversion(isInputFocused);
@@ -91,6 +161,12 @@ public class EventHandler {
     uiInitializer.getCopyResultImageView().setOnClickListener(clickListener);
     uiInitializer.getPasteInputImageView().setOnClickListener(clickListener);
     uiInitializer.getPasteResultImageView().setOnClickListener(clickListener);
+
+    uiInitializer.getExportInputImageView().setOnClickListener(clickListener);
+    uiInitializer.getExportResultImageView().setOnClickListener(clickListener);
+    uiInitializer.getShareInputImageView().setOnClickListener(clickListener);
+    uiInitializer.getShareResultImageView().setOnClickListener(clickListener);
+
     uiInitializer.getReloadImageView().setOnClickListener(clickListener);
 
     // Focus change listener
@@ -131,7 +207,10 @@ public class EventHandler {
                 if (conversionManager.isProgrammaticTextChange()) return;
 
                 try {
-                  EditText inputEditText = uiInitializer.getInputEditText();
+                  TextInputEditText inputEditText = uiInitializer.getInputEditText();
+
+                  uiInitializer.getInputEditTextLayout().setError(null);
+                  uiInitializer.getResultEditTextLayout().setError(null);
 
                   getRemovedFullSpan(s, ForegroundColorSpan.class);
 
@@ -155,7 +234,7 @@ public class EventHandler {
 
                       conversionManager.performConversion(isInputFocused);
 
-                      EditText resultEditText = uiInitializer.getResultEditText();
+                      TextInputEditText resultEditText = uiInitializer.getResultEditText();
 
                       CharSequence coloredTextResult =
                           setColorTextBackground(
@@ -178,7 +257,10 @@ public class EventHandler {
                 } catch (Exception e) {
                   errorHandler.logError(TAG, "Error in input text watcher: " + e.getMessage());
                   errorHandler.highlightError(
-                      uiInitializer.getInputEditText(), uiInitializer.getResultEditText());
+                      uiInitializer.getInputEditText(),
+                      uiInitializer.getResultEditText(),
+                      uiInitializer.getInputEditTextLayout(),
+                      uiInitializer.getResultEditTextLayout());
                 }
               }
             });
@@ -197,9 +279,11 @@ public class EventHandler {
                   return;
                 }
                 try {
+                  uiInitializer.getInputEditTextLayout().setError(null);
+                  uiInitializer.getResultEditTextLayout().setError(null);
                   getRemovedFullSpan(s, ForegroundColorSpan.class);
 
-                  EditText resultEditText = uiInitializer.getResultEditText();
+                  TextInputEditText resultEditText = uiInitializer.getResultEditText();
 
                   // s.removeSpan(new
                   // android.text.style.ForegroundColorSpan(android.graphics.Color.RED));
@@ -237,7 +321,7 @@ public class EventHandler {
 
                       conversionManager.performConversion(isInputFocused);
 
-                      EditText inputEditText = uiInitializer.getInputEditText();
+                      TextInputEditText inputEditText = uiInitializer.getInputEditText();
 
                       CharSequence coloredTextInput =
                           setColorTextBackground(
@@ -261,14 +345,17 @@ public class EventHandler {
                 } catch (Exception e) {
                   errorHandler.logError(TAG, "Error in result text watcher: " + e.getMessage());
                   errorHandler.highlightError(
-                      uiInitializer.getInputEditText(), uiInitializer.getResultEditText());
+                      uiInitializer.getInputEditText(),
+                      uiInitializer.getResultEditText(),
+                      uiInitializer.getInputEditTextLayout(),
+                      uiInitializer.getResultEditTextLayout());
                 }
               }
             });
   }
 
   public static CharSequence setColorTextBackground(
-      String colorhash, String text, EditText editText) {
+      String colorhash, String text, TextInputEditText editText) {
     Spannable spannable = new SpannableString(text);
     int color;
 
@@ -324,6 +411,16 @@ public class EventHandler {
     uiInitializer.getInputEditText().requestFocus();
   }
 
+  public void updateErrorTextColor() {
+
+    uiInitializer.getInputEditTextLayout().setError(null);
+    uiInitializer.getResultEditTextLayout().setError(null);
+
+    getRemovedFullSpanEditText(uiInitializer.getInputEditText(), ForegroundColorSpan.class);
+
+    getRemovedFullSpanEditText(uiInitializer.getResultEditText(), ForegroundColorSpan.class);
+  }
+
   public static void getRemovedFullSpan(Editable editable, Class cls) {
     for (CharacterStyle characterStyle :
         (CharacterStyle[]) editable.getSpans(0, editable.length(), cls)) {
@@ -332,7 +429,7 @@ public class EventHandler {
   }
 
   public static void getRemovedFullSpanEditText(
-      EditText editText, Class<? extends CharacterStyle> cls) {
+      TextInputEditText editText, Class<? extends CharacterStyle> cls) {
     Editable editable = editText.getText();
     for (CharacterStyle characterStyle : editable.getSpans(0, editable.length(), cls)) {
       editable.removeSpan(characterStyle);

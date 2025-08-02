@@ -44,15 +44,7 @@
       android:entryValues="@array/conversion_options_entryvalue"
       android:defaultValue="27"
     />
-    
-    
-    <com.decryptor.encryptor.StringSwitchPreference
-      android:icon="@drawable/swipe_vertical_24px"
-      android:key="enable_scrollable_layout"
-      android:title="Scrollable text layout"
-      android:summary="Makes the layout scrollable to show full text without scrolling inside individual preferences."
-      android:defaultValue="false"
-    />  
+
     </PreferenceScreen>
 
 <PreferenceScreen

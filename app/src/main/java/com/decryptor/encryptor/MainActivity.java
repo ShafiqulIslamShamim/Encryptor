@@ -3,25 +3,28 @@ package com.decryptor.encryptor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.*;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.color.MaterialColors;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class MainActivity extends AppCompatActivity {
   private static final String TAG = "MainActivity";
@@ -37,24 +40,9 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     applyLocalTheme(); // 👈 Apply local theme
 
-    // ✅ Enable edge-to-edge
-    WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
     super.onCreate(savedInstanceState);
 
-    // Inside your Activity (e.g., in onCreate)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT <= 34) {
-      Window window = getWindow();
-
-      // Set status bar color
-      TypedValue typedValue = new TypedValue();
-      getTheme()
-          .resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true);
-      int colorSurface = typedValue.data;
-      window.setStatusBarColor(colorSurface);
-
-      // Set navigation bar color
-      window.setNavigationBarColor(colorSurface);
-    }
+    applySystemBarIconColors(getWindow());
 
     context = this;
 
@@ -72,10 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Initialize layout
     uiInitializer = new UIInitializer(this);
-    String activityLayout =
-        SharedPrefValues.getValue("enable_scrollable_layout", false)
-            ? "activity_main_scroll"
-            : "activity_main";
+    String activityLayout = "activity_main";
 
     if (!uiInitializer.initializeLayout(activityLayout)) {
       finish();
@@ -93,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     // Set toolbar
-    Toolbar toolbar = findViewById(R.id.topAppBar);
+    MaterialToolbar toolbar = findViewById(R.id.topAppBar);
     setSupportActionBar(toolbar);
 
     // Initialize app components
@@ -104,15 +89,138 @@ public class MainActivity extends AppCompatActivity {
             this,
             uiInitializer.getInputEditText(),
             uiInitializer.getResultEditText(),
+            uiInitializer.getInputEditTextLayout(),
+            uiInitializer.getResultEditTextLayout(),
             errorHandler);
     eventHandler =
         new EventHandler(this, uiInitializer, clipboardHandler, conversionManager, errorHandler);
 
     eventHandler.setupPreferences();
     eventHandler.setupListeners();
+
+    //  logDynamicColors(this);
   }
 
-  private void showColorPickerDialog() {
+  private void logDynamicColors(Context context) {
+    int[] attrs =
+        new int[] {
+          com.google.android.material.R.attr.colorPrimary,
+          com.google.android.material.R.attr.colorOnPrimary,
+          com.google.android.material.R.attr.colorPrimaryContainer,
+          com.google.android.material.R.attr.colorOnPrimaryContainer,
+          com.google.android.material.R.attr.colorPrimaryInverse,
+          com.google.android.material.R.attr.colorPrimaryFixed,
+          com.google.android.material.R.attr.colorPrimaryFixedDim,
+          com.google.android.material.R.attr.colorOnPrimaryFixed,
+          com.google.android.material.R.attr.colorOnPrimaryFixedVariant,
+          com.google.android.material.R.attr.colorSecondary,
+          com.google.android.material.R.attr.colorOnSecondary,
+          com.google.android.material.R.attr.colorSecondaryContainer,
+          com.google.android.material.R.attr.colorOnSecondaryContainer,
+          com.google.android.material.R.attr.colorSecondaryFixed,
+          com.google.android.material.R.attr.colorSecondaryFixedDim,
+          com.google.android.material.R.attr.colorOnSecondaryFixed,
+          com.google.android.material.R.attr.colorOnSecondaryFixedVariant,
+          com.google.android.material.R.attr.colorTertiary,
+          com.google.android.material.R.attr.colorOnTertiary,
+          com.google.android.material.R.attr.colorTertiaryContainer,
+          com.google.android.material.R.attr.colorOnTertiaryContainer,
+          com.google.android.material.R.attr.colorTertiaryFixed,
+          com.google.android.material.R.attr.colorTertiaryFixedDim,
+          com.google.android.material.R.attr.colorOnTertiaryFixed,
+          com.google.android.material.R.attr.colorOnTertiaryFixedVariant,
+          com.google.android.material.R.attr.colorError,
+          com.google.android.material.R.attr.colorOnError,
+          com.google.android.material.R.attr.colorErrorContainer,
+          com.google.android.material.R.attr.colorOnErrorContainer,
+          com.google.android.material.R.attr.colorOutline,
+          com.google.android.material.R.attr.colorOutlineVariant,
+          android.R.attr.colorBackground, // Use android namespace for background
+          com.google.android.material.R.attr.colorOnBackground,
+          com.google.android.material.R.attr.colorSurface,
+          com.google.android.material.R.attr.colorOnSurface,
+          com.google.android.material.R.attr.colorSurfaceVariant,
+          com.google.android.material.R.attr.colorOnSurfaceVariant,
+          com.google.android.material.R.attr.colorSurfaceInverse,
+          com.google.android.material.R.attr.colorOnSurfaceInverse,
+          com.google.android.material.R.attr.colorSurfaceBright,
+          com.google.android.material.R.attr.colorSurfaceDim,
+          com.google.android.material.R.attr.colorSurfaceContainer,
+          com.google.android.material.R.attr.colorSurfaceContainerLow,
+          com.google.android.material.R.attr.colorSurfaceContainerLowest,
+          com.google.android.material.R.attr.colorSurfaceContainerHigh,
+          com.google.android.material.R.attr.colorSurfaceContainerHighest
+        };
+
+    String[] names =
+        new String[] {
+          "colorPrimary",
+          "colorOnPrimary",
+          "colorPrimaryContainer",
+          "colorOnPrimaryContainer",
+          "colorPrimaryInverse",
+          "colorPrimaryFixed",
+          "colorPrimaryFixedDim",
+          "colorOnPrimaryFixed",
+          "colorOnPrimaryFixedVariant",
+          "colorSecondary",
+          "colorOnSecondary",
+          "colorSecondaryContainer",
+          "colorOnSecondaryContainer",
+          "colorSecondaryFixed",
+          "colorSecondaryFixedDim",
+          "colorOnSecondaryFixed",
+          "colorOnSecondaryFixedVariant",
+          "colorTertiary",
+          "colorOnTertiary",
+          "colorTertiaryContainer",
+          "colorOnTertiaryContainer",
+          "colorTertiaryFixed",
+          "colorTertiaryFixedDim",
+          "colorOnTertiaryFixed",
+          "colorOnTertiaryFixedVariant",
+          "colorError",
+          "colorOnError",
+          "colorErrorContainer",
+          "colorOnErrorContainer",
+          "colorOutline",
+          "colorOutlineVariant",
+          "colorBackground",
+          "colorOnBackground",
+          "colorSurface",
+          "colorOnSurface",
+          "colorSurfaceVariant",
+          "colorOnSurfaceVariant",
+          "colorSurfaceInverse",
+          "colorOnSurfaceInverse",
+          "colorSurfaceBright",
+          "colorSurfaceDim",
+          "colorSurfaceContainer",
+          "colorSurfaceContainerLow",
+          "colorSurfaceContainerLowest",
+          "colorSurfaceContainerHigh",
+          "colorSurfaceContainerHighest"
+        };
+
+    for (int i = 0; i < attrs.length; i++) {
+      int color = getThemeColor(context, attrs[i]);
+      String hex = String.format("#%08X", color);
+      Log.d("ThemeColors", names[i] + ": " + hex);
+    }
+  }
+
+  private int getThemeColor(Context context, int attrResId) {
+    TypedValue typedValue = new TypedValue();
+    Resources.Theme theme = context.getTheme();
+    if (theme.resolveAttribute(attrResId, typedValue, true)) {
+      return typedValue.data;
+    } else {
+      Log.e("ThemeColors", "Attribute not found: " + attrResId);
+      return 0xFF00FF; // fallback magenta
+    }
+  }
+
+  public void showColorPickerDialog() {
     int initialColor = Color.RED;
 
     String text = uiInitializer.getInputEditText().getText().toString().trim();
@@ -129,6 +237,10 @@ public class MainActivity extends AppCompatActivity {
             initialColor,
             color -> {
               try {
+
+                uiInitializer.getInputEditTextLayout().setError(null);
+
+                uiInitializer.getResultEditTextLayout().setError(null);
 
                 eventHandler.getRemovedFullSpanEditText(
                     uiInitializer.getInputEditText(), ForegroundColorSpan.class);
@@ -173,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
 
                 conversionManager.performConversion(true);
 
-                EditText resultEditText = uiInitializer.getResultEditText();
+                TextInputEditText resultEditText = uiInitializer.getResultEditText();
 
                 CharSequence coloredText =
                     eventHandler.setColorTextBackground(
@@ -186,7 +298,10 @@ public class MainActivity extends AppCompatActivity {
               } catch (Exception e) {
                 errorHandler.logError(TAG, "Error in input text watcher: " + e.getMessage());
                 errorHandler.highlightError(
-                    uiInitializer.getInputEditText(), uiInitializer.getResultEditText());
+                    uiInitializer.getInputEditText(),
+                    uiInitializer.getResultEditText(),
+                    uiInitializer.getInputEditTextLayout(),
+                    uiInitializer.getResultEditTextLayout());
               }
             });
     dialog.show(getSupportFragmentManager(), "ColorPickerDialog");
@@ -215,12 +330,47 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+  private void applySystemBarIconColors(Window window) {
+    String themePref = SharedPrefValues.getValue("theme_preference", "0");
+
+    boolean isLightTheme;
+
+    switch (themePref) {
+      case "2": // Dark theme
+        isLightTheme = false;
+        break;
+      case "3": // Light theme
+        isLightTheme = true;
+        break;
+      default:
+        // Follow system theme
+        int nightModeFlags =
+            getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        isLightTheme = (nightModeFlags != Configuration.UI_MODE_NIGHT_YES);
+        break;
+    }
+
+    // Apply system UI bar settings
+    WindowCompat.setDecorFitsSystemWindows(window, false);
+    window.setStatusBarColor(Color.TRANSPARENT);
+    window.setNavigationBarColor(Color.TRANSPARENT);
+
+    WindowInsetsControllerCompat insetsController =
+        WindowCompat.getInsetsController(window, window.getDecorView());
+
+    if (insetsController != null) {
+      // true = dark icons, false = light icons
+      insetsController.setAppearanceLightStatusBars(isLightTheme);
+      insetsController.setAppearanceLightNavigationBars(isLightTheme);
+    }
+  }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     return uiInitializer.initializeMenu(menu, eventHandler);
   }
 
-  @Override
+  /*  @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     int resetId = getResources().getIdentifier("reset", "id", getPackageName());
     int settingsId = getResources().getIdentifier("settings", "id", getPackageName());
@@ -248,6 +398,8 @@ public class MainActivity extends AppCompatActivity {
 
     return super.onOptionsItemSelected(item);
   }
+
+  */
 
   @Override
   public void onBackPressed() {

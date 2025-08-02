@@ -1,11 +1,15 @@
 package com.decryptor.encryptor;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.text.Editable;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class ErrorHandler {
   private static final String TAG = "ErrorHandler";
@@ -27,16 +31,51 @@ public class ErrorHandler {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
   }
 
-  public void highlightError(EditText inputEditText, EditText resultEditText) {
+  public void highlightError(
+      TextInputEditText inputEditText,
+      TextInputEditText resultEditText,
+      TextInputLayout inputLayout,
+      TextInputLayout resultLayout) {
+
+    // Error messages
+    String inputErrorText = "Invalid input";
+    String resultErrorText = "Incorrect result";
+
+    // Get error color from Material default
+    int errorColor =
+        ContextCompat.getColor(
+            inputEditText.getContext(),
+            com.google.android.material.R.color.design_default_color_error);
+    ColorStateList errorColorStateList = ColorStateList.valueOf(errorColor);
+
+    // --- Input Field Error Handling ---
     Editable inputText = inputEditText.getText();
-    if (inputText.length() > 0) {
+    if (inputText != null && inputText.length() > 0) {
+      inputLayout.setError(inputErrorText);
+      inputLayout.setBoxStrokeErrorColor(errorColorStateList);
+      inputLayout.setErrorTextColor(errorColorStateList);
+      inputLayout.setErrorIconTintList(errorColorStateList);
+
       inputText.setSpan(
-          new ForegroundColorSpan(android.graphics.Color.RED), 0, inputText.length(), 33);
+          new ForegroundColorSpan(errorColor),
+          0,
+          inputText.length(),
+          Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
+
+    // --- Result Field Error Handling ---
     Editable resultText = resultEditText.getText();
-    if (resultText.length() > 0) {
+    if (resultText != null && resultText.length() > 0) {
+      resultLayout.setError(resultErrorText);
+      resultLayout.setBoxStrokeErrorColor(errorColorStateList);
+      resultLayout.setErrorTextColor(errorColorStateList);
+      resultLayout.setErrorIconTintList(errorColorStateList);
+
       resultText.setSpan(
-          new ForegroundColorSpan(android.graphics.Color.RED), 0, resultText.length(), 33);
+          new ForegroundColorSpan(errorColor),
+          0,
+          resultText.length(),
+          Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
   }
 

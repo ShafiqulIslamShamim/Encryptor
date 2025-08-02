@@ -111,7 +111,7 @@ public class OTAUpdateHelper {
     private void fetchUpdate(AlertDialog progressDialog) {
       try {
         String encodedUrl =
-            "aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZG9jdW1lbnQvZC8xaXlBX2ZQNDdXUVViLUhYN2txcGJPV2MxUm5teGFqdnFXdXRQc2RDOE50US9leHBvcnQ/Zm9ybWF0PXR4dA==";
+            "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL1NoYWZpcXVsSXNsYW1TaGFtaW0vRW5jcnlwdG9yL21haW4vVXBkYXRlQ2hlY2tlckluZm8udHh0";
         String textUrl =
             new String(Base64.decode(encodedUrl, Base64.DEFAULT), StandardCharsets.UTF_8);
         HttpURLConnection connection = (HttpURLConnection) new URL(textUrl).openConnection();

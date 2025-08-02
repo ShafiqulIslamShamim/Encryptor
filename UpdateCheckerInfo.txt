@@ -1,0 +1,8 @@
+[3.2]
+[3.2]
+[What's new!
+
+
+- Optimized the main activity layout.
+- Added ability to share and export texts.]
+[https://play.google.com/store/apps/details?id=com.decryptor.encryptor]

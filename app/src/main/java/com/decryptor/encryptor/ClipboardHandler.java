@@ -3,7 +3,7 @@ package com.decryptor.encryptor;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.widget.EditText;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class ClipboardHandler {
   private static final String TAG = "ClipboardHandler";
@@ -13,7 +13,7 @@ public class ClipboardHandler {
     this.context = context;
   }
 
-  public void copyText(EditText editText, String label) {
+  public void copyText(TextInputEditText editText, String label) {
     ClipboardManager clipboard =
         (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     if (clipboard != null) {
@@ -25,7 +25,7 @@ public class ClipboardHandler {
     }
   }
 
-  public void pasteText(EditText editText) {
+  public void pasteText(TextInputEditText editText) {
     ClipboardManager clipboard =
         (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     if (clipboard != null && clipboard.hasPrimaryClip()) {

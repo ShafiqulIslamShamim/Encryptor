@@ -3,172 +3,296 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
 >
-    
-        <!-- ✅ Toolbar -->
 
-    <androidx.appcompat.widget.Toolbar
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
     android:id="@+id/topAppBar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:background="?attr/colorSurface"
-    app:titleTextColor="?attr/colorOnSurface"
-    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-  />
-
-    <RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="0.0dip"
-    android:layout_weight="1.0"
-  >
-
-        <TextView
-      android:id="@+id/labelEditText1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/data"
-      android:textAppearance="?android:attr/textAppearanceMedium"
-      android:textStyle="bold"
-      android:layout_alignParentStart="true"
-      android:layout_marginBottom="2dp"
-      android:paddingStart="10dp"
-    />
-
-        <EditText
-      android:id="@id/converterEditText1"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_below="@id/labelEditText1"
-      android:hint="@string/data"
-      android:inputType="textMultiLine"
-      android:gravity="top"
-      android:paddingStart="10dp"
-    />
-
-        <ImageView
-      android:id="@id/converterImageView1"
-      android:background="?android:selectableItemBackground"
-      android:focusable="true"
-      android:clickable="true"
-      android:layout_width="24.0dip"
-      android:layout_height="24.0dip"
-      android:layout_marginTop="5.0dip"
-      android:layout_marginRight="5.0dip"
-      android:src="@drawable/ic_copy"
-      android:scaleType="centerInside"
-      android:adjustViewBounds="true"
-      android:layout_alignParentRight="true"
-      android:layout_below="@id/labelEditText1"
-      android:contentDescription="@string/copy"
-    />
-
-        <ImageView
-      android:id="@id/converterImageView3"
-      android:background="?android:selectableItemBackground"
-      android:focusable="true"
-      android:clickable="true"
-      android:layout_width="24.0dip"
-      android:layout_height="24.0dip"
-      android:layout_marginTop="10.0dip"
-      android:layout_marginRight="5.0dip"
-      android:src="@drawable/ic_paste"
-      android:scaleType="centerInside"
-      android:adjustViewBounds="true"
-      android:layout_alignParentRight="true"
-      android:layout_below="@id/converterImageView1"
-      android:contentDescription="@string/paste"
-    />
-    </RelativeLayout>
-
-    <Space
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="3dp"
-    android:layout_marginBottom="3dp"
+    android:background="?attr/colorSurface"
+    android:elevation="0dp"
+    app:titleTextColor="?attr/colorOnSurface"
+    app:titleTextAppearance="@style/CustomToolbarTitle"
   />
 
-    <RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="0.0dip"
-    android:layout_weight="1.0"
+    <!-- Scrollable Content -->
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:fillViewport="true"
   >
 
-        <TextView
-      android:id="@+id/labelEditText2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/result"
-      android:textAppearance="?android:attr/textAppearanceMedium"
-      android:textStyle="bold"
-      android:layout_alignParentStart="true"
-      android:layout_marginBottom="2dp"
-      android:paddingStart="10dp"
-    />
-
-        <EditText
-      android:id="@id/converterEditText2"
+        <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_below="@id/labelEditText2"
-      android:hint="@string/result"
-      android:inputType="textMultiLine"
-      android:gravity="top"
-      android:paddingStart="10dp"
-    />
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:padding="8dp"
+    >
 
-        <ImageView
-      android:id="@id/converterImageView2"
-      android:background="?android:selectableItemBackground"
-      android:focusable="true"
-      android:clickable="true"
-      android:layout_width="24.0dip"
-      android:layout_height="24.0dip"
-      android:layout_marginTop="5.0dip"
-      android:layout_marginRight="5.0dip"
-      android:src="@drawable/ic_copy"
-      android:scaleType="centerInside"
-      android:adjustViewBounds="true"
-      android:layout_alignParentRight="true"
-      android:layout_below="@id/labelEditText2"
-      android:contentDescription="@string/copy"
-    />
+            <!-- First Section -->
+            <TextView
+        android:id="@+id/labelEditText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/data"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:paddingStart="10dp"
+        android:layout_marginBottom="4dp"
+      />
 
-        <ImageView
-      android:id="@id/converterImageView4"
-      android:background="?android:selectableItemBackground"
-      android:focusable="true"
-      android:clickable="true"
-      android:layout_width="24.0dip"
-      android:layout_height="24.0dip"
-      android:layout_marginTop="10.0dip"
-      android:layout_marginRight="5.0dip"
-      android:src="@drawable/ic_paste"
-      android:scaleType="centerInside"
-      android:adjustViewBounds="true"
-      android:layout_alignParentRight="true"
-      android:layout_below="@id/converterImageView2"
-      android:contentDescription="@string/paste"
-    />
+            <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/data"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/edittext_stroke_color"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusBottomEnd="20dp"
+      >
+
+                <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/converterEditText1"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:minHeight="200dp"
+          android:gravity="top"
+          android:inputType="textMultiLine"
+          android:paddingStart="10dp"
+        />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:flexWrap="wrap"
+        app:justifyContent="flex_start"
+        app:alignItems="center"
+      >
+
+    <!-- Copy Button -->
+    <com.google.android.material.button.MaterialButton
+          android:id="@+id/converterImageView1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          app:icon="@drawable/ic_copy"
+          app:iconTint="?attr/colorOnPrimaryContainer"
+          android:text="@string/copy"
+          android:textColor="?attr/colorOnPrimaryContainer"
+          app:backgroundTint="?attr/colorPrimaryContainer"
+          app:cornerRadius="16dp"
+          app:iconPadding="4dp"
+          app:iconGravity="start"
+          app:elevation="2dp"
+        />
+
+    <!-- Paste Button -->
+    <com.google.android.material.button.MaterialButton
+          android:id="@+id/converterImageView3"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          app:icon="@drawable/ic_paste"
+          app:iconTint="?attr/colorOnPrimaryContainer"
+          android:text="@string/paste"
+          android:textColor="?attr/colorOnPrimaryContainer"
+          app:backgroundTint="?attr/colorPrimaryContainer"
+          app:cornerRadius="16dp"
+          app:iconPadding="4dp"
+          app:iconGravity="start"
+          app:elevation="2dp"
+        />
+
+    <!-- Share Button -->
+    <com.google.android.material.button.MaterialButton
+          android:id="@+id/shareImageView1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          app:icon="@drawable/share_24px"
+          app:iconTint="?attr/colorOnPrimaryContainer"
+          android:text="Share"
+          android:textColor="?attr/colorOnPrimaryContainer"
+          app:backgroundTint="?attr/colorPrimaryContainer"
+          app:cornerRadius="16dp"
+          app:iconPadding="4dp"
+          app:iconGravity="start"
+          app:elevation="2dp"
+        />
+
+    <!-- Export Button -->
+    <com.google.android.material.button.MaterialButton
+          android:id="@+id/exportImageView1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:icon="@drawable/download_24px"
+          app:iconTint="?attr/colorOnPrimaryContainer"
+          android:text="Export"
+          android:textColor="?attr/colorOnPrimaryContainer"
+          app:backgroundTint="?attr/colorPrimaryContainer"
+          app:cornerRadius="16dp"
+          app:iconPadding="4dp"
+          app:iconGravity="start"
+          app:elevation="2dp"
+        />
+
+</com.google.android.flexbox.FlexboxLayout>
+
+            <!-- Divider -->
+            <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="?attr/colorOutline"
+      />
+
+            <!-- Second Section -->
+            <TextView
+        android:id="@+id/labelEditText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/result"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:paddingStart="10dp"
+        android:layout_marginBottom="4dp"
+      />
+
+            <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/result"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/edittext_stroke_color"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusBottomEnd="20dp"
+      >
+
+                <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/converterEditText2"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:minHeight="200dp"
+          android:gravity="top"
+          android:inputType="textMultiLine"
+          android:paddingStart="10dp"
+        />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:flexWrap="wrap"
+        app:justifyContent="flex_start"
+        app:alignItems="center"
+      >
+
+    <!-- Copy Button -->
+    <com.google.android.material.button.MaterialButton
+          android:id="@+id/converterImageView2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          app:icon="@drawable/ic_copy"
+          app:iconTint="?attr/colorOnPrimaryContainer"
+          android:text="@string/copy"
+          android:textColor="?attr/colorOnPrimaryContainer"
+          app:backgroundTint="?attr/colorPrimaryContainer"
+          app:cornerRadius="16dp"
+          app:iconPadding="4dp"
+          app:iconGravity="start"
+          app:elevation="2dp"
+        />
+
+    <!-- Paste Button -->
+    <com.google.android.material.button.MaterialButton
+          android:id="@+id/converterImageView4"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          app:icon="@drawable/ic_paste"
+          app:iconTint="?attr/colorOnPrimaryContainer"
+          android:text="@string/paste"
+          android:textColor="?attr/colorOnPrimaryContainer"
+          app:backgroundTint="?attr/colorPrimaryContainer"
+          app:cornerRadius="16dp"
+          app:iconPadding="4dp"
+          app:iconGravity="start"
+          app:elevation="2dp"
+        />
+
+    <!-- Reload Button (Hidden) -->
+    <com.google.android.material.button.MaterialButton
+          android:id="@+id/converterImageView5"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          android:visibility="gone"
+          app:icon="@drawable/ic_reload"
+          app:iconTint="?attr/colorOnPrimaryContainer"
+          android:text="@string/reload"
+          android:textColor="?attr/colorOnPrimaryContainer"
+          app:backgroundTint="?attr/colorPrimaryContainer"
+          app:cornerRadius="16dp"
+          app:iconPadding="4dp"
+          app:iconGravity="start"
+          app:elevation="2dp"
+        />
+
+    <!-- Share Button -->
+    <com.google.android.material.button.MaterialButton
+          android:id="@+id/shareImageView2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          app:icon="@drawable/share_24px"
+          app:iconTint="?attr/colorOnPrimaryContainer"
+          android:text="Share"
+          android:textColor="?attr/colorOnPrimaryContainer"
+          app:backgroundTint="?attr/colorPrimaryContainer"
+          app:cornerRadius="16dp"
+          app:iconPadding="4dp"
+          app:iconGravity="start"
+          app:elevation="2dp"
+        />
+
+    <!-- Export Button -->
+    <com.google.android.material.button.MaterialButton
+          android:id="@+id/exportImageView2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:icon="@drawable/download_24px"
+          app:iconTint="?attr/colorOnPrimaryContainer"
+          android:text="Export"
+          android:textColor="?attr/colorOnPrimaryContainer"
+          app:backgroundTint="?attr/colorPrimaryContainer"
+          app:cornerRadius="16dp"
+          app:iconPadding="4dp"
+          app:iconGravity="start"
+          app:elevation="2dp"
+        />
+
+</com.google.android.flexbox.FlexboxLayout>
             
-        <ImageView
-      android:id="@+id/converterImageView5"
-      android:background="?android:selectableItemBackground"
-      android:focusable="true"
-      android:clickable="true"
-      android:layout_width="24.0dip"
-      android:layout_height="24.0dip"
-      android:layout_marginTop="10.0dip"
-      android:layout_marginRight="5.0dip"
-      android:src="@drawable/ic_reload"
-      android:scaleType="centerInside"
-      android:adjustViewBounds="true"
-      android:layout_alignParentRight="true"
-      android:layout_below="@id/converterImageView4"
-      android:contentDescription="Reload"
-      android:visibility="gone"
-    />
-    </RelativeLayout>
-
+            
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
