@@ -29,9 +29,11 @@ public class TooltipManager {
       imagePaste1,
       imageShare1,
       imageExport1,
+      imageImport1,
       imageCopy2,
       imagePaste2,
       imageShare2,
+      imageImport2,
       imageExport2,
       imageReload;
   private View InputEditText, OutputEditText;
@@ -55,6 +57,7 @@ public class TooltipManager {
 
     imageShare1 = activity.findViewById(R.id.shareImageView1);
     imageExport1 = activity.findViewById(R.id.exportImageView1);
+    imageImport1 = activity.findViewById(R.id.importImageView1);
 
     OutputEditText = activity.findViewById(R.id.converterEditText2);
     imageCopy2 = activity.findViewById(R.id.converterImageView2);
@@ -62,6 +65,7 @@ public class TooltipManager {
 
     imageShare2 = activity.findViewById(R.id.shareImageView2);
     imageExport2 = activity.findViewById(R.id.exportImageView2);
+    imageImport2 = activity.findViewById(R.id.importImageView2);
 
     imageReload = activity.findViewById(R.id.converterImageView5);
   }
@@ -88,7 +92,12 @@ public class TooltipManager {
           addTooltip(
               imageShare1, "Share", "Shares the text to other apps installed on your device.");
           addTooltip(
+              imageImport1,
+              "Import",
+              "Gets the text from a chosen text file and then converts it.");
+          addTooltip(
               imageExport1, "Export", "Saves the text to a user-selected location using SAF.");
+
           addTooltip(
               OutputEditText,
               "Result Field",
@@ -99,6 +108,11 @@ public class TooltipManager {
           addTooltip(imageReload, "Reload", "Regenerates and refreshes the output.");
           addTooltip(
               imageShare2, "Share", "Shares the text to other apps installed on your device.");
+
+          addTooltip(
+              imageImport2,
+              "Import",
+              "Gets the text from a chosen text file and then converts it.");
           addTooltip(
               imageExport2, "Export", "Saves the text to a user-selected location using SAF.");
           addTooltip(

@@ -16,8 +16,8 @@ android {
         applicationId 'com.decryptor.encryptor'
         minSdk 26
         targetSdk 35
-        versionCode 23
-        versionName '3.2'
+        versionCode 24
+        versionName '3.3'
 
         vectorDrawables {
             useSupportLibrary true
@@ -51,6 +51,13 @@ android {
 
     buildFeatures {
         viewBinding true
+    }
+    
+    lint {
+        abortOnError = true
+        warningsAsErrors = true
+        checkAllWarnings = true
+        explainIssues = true
     }
 
 }

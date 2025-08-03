@@ -18,6 +18,16 @@ public class BiometricAuthHelper {
     void onAuthError(String error);
   }
 
+  public static boolean isSecuritySetup(Context context) {
+    BiometricManager biometricManager = BiometricManager.from(context);
+    int canAuthenticate =
+        biometricManager.canAuthenticate(
+            BiometricManager.Authenticators.BIOMETRIC_STRONG
+                | BiometricManager.Authenticators.DEVICE_CREDENTIAL);
+
+    return canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS;
+  }
+
   public static void authenticate(
       Context context, @NonNull AppCompatActivity activity, @NonNull AuthCallback callback) {
 

@@ -9,7 +9,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.Nullable;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,5 +96,31 @@ public class TextFileUtils {
     intent.putExtra(Intent.EXTRA_TEXT, message);
 
     context.startActivity(Intent.createChooser(intent, "Share via"));
+  }
+
+  public static void readTextFromUri(
+      @Nullable Uri uri,
+      TextInputEditText editTextContent,
+      Activity activity,
+      ConversionManager conversionManager) {
+    if (uri == null) return;
+    try (InputStream inputStream = activity.getContentResolver().openInputStream(uri);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+
+      StringBuilder textBuilder = new StringBuilder();
+      String line;
+      while ((line = reader.readLine()) != null) {
+        textBuilder.append(line).append('\n');
+      }
+
+      conversionManager.setProgrammaticTextChange(true);
+      editTextContent.setText(textBuilder.toString());
+      conversionManager.setProgrammaticTextChange(false);
+      editTextContent.requestFocus();
+
+    } catch (Exception e) {
+      Toast.makeText(activity, "Failed to read file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+      e.printStackTrace();
+    }
   }
 }

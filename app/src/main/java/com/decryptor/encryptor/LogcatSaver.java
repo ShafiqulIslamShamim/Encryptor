@@ -55,7 +55,14 @@ public class LogcatSaver {
     }
 
     String fileName =
-        "Decryptor_" + Build.MANUFACTURER + "_" + Build.MODEL + "(" + Build.DEVICE + ")" + ".json";
+        "Encryptor_Logcat_"
+            + Build.MANUFACTURER
+            + "_"
+            + Build.MODEL
+            + "("
+            + Build.DEVICE
+            + ")"
+            + ".json";
 
     // Delete existing file if it exists
     DocumentFile existingFile = folder.findFile(fileName);

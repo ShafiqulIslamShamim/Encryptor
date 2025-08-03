@@ -86,7 +86,7 @@ Facing a bug or issue?
 
 ## 📦 Download
 
-📥 **[Download the latest release here](https://github.com/ShafiqulIslamShamim/Encryptor/releases/tag/v3.2)**  
+📥 **[Download the latest release here](https://github.com/ShafiqulIslamShamim/Encryptor/releases/tag/v3.3)**  
 📲 **[Get it on Google Play](https://play.google.com/store/apps/details?id=com.decryptor.encryptor)**
 
 ---

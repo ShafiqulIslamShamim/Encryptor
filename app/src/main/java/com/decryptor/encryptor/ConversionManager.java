@@ -694,7 +694,7 @@ public class ConversionManager {
             errorHandler.highlightError(
                 inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
             if (!PasswordManager.isPrivateKeySet() && TextUtils.isEmpty(alias)) {
-              PasswordManager.startBiometricAuth(activity, activity);
+              PasswordManager.startBiometricAuth(activity, activity, false);
             }
           }
 
@@ -772,7 +772,7 @@ public class ConversionManager {
             errorHandler.highlightError(
                 inputEditText, resultEditText, inputEditTextLayout, resultEditTextLayout);
             if (!PasswordManager.isPrivateKeySet() && TextUtils.isEmpty(aliastwice)) {
-              PasswordManager.startBiometricAuth(activity, activity);
+              PasswordManager.startBiometricAuth(activity, activity, false);
             }
           }
 

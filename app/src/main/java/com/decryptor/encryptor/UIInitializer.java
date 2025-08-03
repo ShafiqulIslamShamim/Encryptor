@@ -29,6 +29,8 @@ public class UIInitializer {
   private MaterialButton pasteResultImageView;
   private MaterialButton reloadImageView;
 
+  private MaterialButton importInputImageView;
+  private MaterialButton importResultImageView;
   private MaterialButton exportInputImageView;
   private MaterialButton exportResultImageView;
   private MaterialButton shareInputImageView;
@@ -63,6 +65,9 @@ public class UIInitializer {
 
     exportInputImageView = initializeView("exportImageView1", "id", MaterialButton.class);
     exportResultImageView = initializeView("exportImageView2", "id", MaterialButton.class);
+    importInputImageView = initializeView("importImageView1", "id", MaterialButton.class);
+    importResultImageView = initializeView("importImageView2", "id", MaterialButton.class);
+
     shareInputImageView = initializeView("shareImageView1", "id", MaterialButton.class);
     shareResultImageView = initializeView("shareImageView2", "id", MaterialButton.class);
 
@@ -76,6 +81,8 @@ public class UIInitializer {
         || copyResultImageView == null
         || pasteInputImageView == null
         || pasteResultImageView == null
+        || importInputImageView == null
+        || importResultImageView == null
         || exportInputImageView == null
         || exportResultImageView == null
         || shareInputImageView == null
@@ -100,6 +107,8 @@ public class UIInitializer {
     copyResultImageView.setClickable(true);
     pasteInputImageView.setClickable(true);
     pasteResultImageView.setClickable(true);
+    importInputImageView.setClickable(true);
+    importResultImageView.setClickable(true);
     exportInputImageView.setClickable(true);
     exportResultImageView.setClickable(true);
     shareInputImageView.setClickable(true);
@@ -176,7 +185,7 @@ public class UIInitializer {
     ImageView privateKeyIcon = privateKeyView.findViewById(R.id.icon_image);
     privateKeyIcon.setOnClickListener(
         v -> {
-          PasswordManager.startBiometricAuth(activity, activity);
+          PasswordManager.startBiometricAuth(activity, activity, true);
         });
 
     // Reset
@@ -239,18 +248,18 @@ public class UIInitializer {
           //       hexSwitch.setOnCheckedChangeListener(null); // Clear any existing listener
           boolean hexModeEnabled = SharedPrefValues.getValue("converter_hex", false);
           Log.d(TAG, "Initial hexModeEnabled: " + hexModeEnabled);
-          hexSwitch.setChecked(hexModeEnabled);
+          hexSwitch.setChecked(!hexModeEnabled);
           //  hexSwitch.setEnabled(true); // Ensure switch is enabled
 
           hexSwitch.setOnCheckedChangeListener(
               (buttonView, isChecked) -> {
                 //      Log.d(TAG, "Switch toggled, isChecked: " + isChecked);
                 SharedPrefValues.putValue(
-                    "converter_hex", String.valueOf(SharedPrefValues.booleanToInt(isChecked)));
+                    "converter_hex", String.valueOf(SharedPrefValues.booleanToInt(!isChecked)));
                 //     Log.d(TAG, "Saved converter_hex: " +
                 // SharedPrefValues.getValue("converter_hex", false));
                 eventHandler.setupPreferences();
-                eventHandler.setupListeners();
+                //      eventHandler.setupListeners();
                 Log.d(TAG, "Hex mode is now " + (isChecked ? "enabled" : "disabled"));
               });
           //  Log.d(TAG, "Listener attached to hexSwitch");
@@ -340,6 +349,14 @@ public class UIInitializer {
 
   public MaterialButton getExportResultImageView() {
     return exportResultImageView;
+  }
+
+  public MaterialButton getImportInputImageView() {
+    return importInputImageView;
+  }
+
+  public MaterialButton getImportResultImageView() {
+    return importResultImageView;
   }
 
   public MaterialButton getShareInputImageView() {

@@ -3,6 +3,7 @@ package com.decryptor.encryptor;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -25,6 +26,8 @@ public class EventHandler {
   private final ErrorHandler errorHandler;
   private boolean isInputFocused = true;
   private ActivityResultLauncher<Intent> createFileLauncher;
+  private ActivityResultLauncher<Intent> filePickerLauncherInput;
+  private ActivityResultLauncher<Intent> filePickerLauncherResult;
 
   public EventHandler(
       AppCompatActivity activity,
@@ -58,6 +61,31 @@ public class EventHandler {
                 TextFileUtils.handleFileSaveResult(activity, result.getData());
               } else {
                 Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show();
+              }
+            });
+
+    // Register Activity Result Launcher
+    filePickerLauncherInput =
+        activity.registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+              if (result.getResultCode() == activity.RESULT_OK && result.getData() != null) {
+                Uri uri = result.getData().getData();
+
+                TextFileUtils.readTextFromUri(
+                    uri, uiInitializer.getInputEditText(), activity, conversionManager);
+              }
+            });
+
+    filePickerLauncherResult =
+        activity.registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+              if (result.getResultCode() == activity.RESULT_OK && result.getData() != null) {
+                Uri uri = result.getData().getData();
+
+                TextFileUtils.readTextFromUri(
+                    uri, uiInitializer.getResultEditText(), activity, conversionManager);
               }
             });
 
@@ -108,6 +136,16 @@ public class EventHandler {
                     .getResources()
                     .getIdentifier("exportImageView2", "id", activity.getPackageName());
 
+            int importImageView1Id =
+                activity
+                    .getResources()
+                    .getIdentifier("importImageView1", "id", activity.getPackageName());
+
+            int importImageView2Id =
+                activity
+                    .getResources()
+                    .getIdentifier("importImageView2", "id", activity.getPackageName());
+
             if (viewId == converterImageView1Id) {
               clipboardHandler.copyText(uiInitializer.getInputEditText(), "Input");
             } else if (viewId == converterImageView2Id) {
@@ -119,7 +157,7 @@ public class EventHandler {
               uiInitializer.getResultEditText().requestFocus();
               clipboardHandler.pasteText(uiInitializer.getResultEditText());
             } else if (viewId == converterImageView5Id) {
-              isInputFocused = true;
+              uiInitializer.getInputEditText().requestFocus();
             } else if (viewId == shareImageView1Id) {
               String inputText = uiInitializer.getInputEditText().getText().toString();
               if (inputText.isEmpty()) {
@@ -151,6 +189,10 @@ public class EventHandler {
               } else {
                 TextFileUtils.saveTextToFile(activity, createFileLauncher, resultText);
               }
+            } else if (viewId == importImageView1Id) {
+              filePickerLauncherInput.launch(TextFileIntent());
+            } else if (viewId == importImageView2Id) {
+              filePickerLauncherResult.launch(TextFileIntent());
             }
 
             conversionManager.performConversion(isInputFocused);
@@ -161,6 +203,9 @@ public class EventHandler {
     uiInitializer.getCopyResultImageView().setOnClickListener(clickListener);
     uiInitializer.getPasteInputImageView().setOnClickListener(clickListener);
     uiInitializer.getPasteResultImageView().setOnClickListener(clickListener);
+
+    uiInitializer.getImportInputImageView().setOnClickListener(clickListener);
+    uiInitializer.getImportResultImageView().setOnClickListener(clickListener);
 
     uiInitializer.getExportInputImageView().setOnClickListener(clickListener);
     uiInitializer.getExportResultImageView().setOnClickListener(clickListener);
@@ -434,5 +479,12 @@ public class EventHandler {
     for (CharacterStyle characterStyle : editable.getSpans(0, editable.length(), cls)) {
       editable.removeSpan(characterStyle);
     }
+  }
+
+  public static Intent TextFileIntent() {
+    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+    intent.setType("text/*");
+    intent.addCategory(Intent.CATEGORY_OPENABLE);
+    return intent;
   }
 }

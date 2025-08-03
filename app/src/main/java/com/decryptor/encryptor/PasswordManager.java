@@ -205,27 +205,41 @@ public class PasswordManager {
             });
   }
 
-  public static void startBiometricAuth(Context context, AppCompatActivity activity) {
-    BiometricAuthHelper.authenticate(
-        context,
-        activity,
-        new BiometricAuthHelper.AuthCallback() {
-          @Override
-          public void onAuthSuccess() {
-            // ✅ Verified successfully
-            showPrivateKeyDialog(context);
-          }
+  public static void startBiometricAuth(
+      Context context, AppCompatActivity activity, boolean optionMenuItem) {
 
-          @Override
-          public void onAuthFailed() {
-            // ❌ Fingerprint failed
-          }
+    if (BiometricAuthHelper.isSecuritySetup(context)) {
+      BiometricAuthHelper.authenticate(
+          context,
+          activity,
+          new BiometricAuthHelper.AuthCallback() {
+            @Override
+            public void onAuthSuccess() {
+              // ✅ Verified successfully
+              showPrivateKeyDialog(context);
+            }
 
-          @Override
-          public void onAuthError(String error) {
-            // ⚠️ User cancelled or error
-          }
-        });
+            @Override
+            public void onAuthFailed() {
+              // ❌ Fingerprint failed
+            }
+
+            @Override
+            public void onAuthError(String error) {
+              // ⚠️ User cancelled or error
+            }
+          });
+    } else {
+      if (!optionMenuItem) {
+        showSetPasswordDialog(context);
+      } else {
+        if (isPrivateKeySet()) {
+          showPasswordPrompt(context);
+        } else {
+          showSetPasswordDialog(context);
+        }
+      }
+    }
   }
 
   public static void showPasswordPrompt(Context context) {

@@ -1,8 +1,7 @@
-[3.2]
-[3.2]
-[What's new!
+[3.3]
+[3.3]
+[What’s new!
 
-
-- Optimized the main activity layout.
-- Added ability to share and export texts.]
+- Added support for importing text files into both the Input and Result fields.
+You can now easily select a .txt file using the Import button to load and convert text instantly.]
 [https://play.google.com/store/apps/details?id=com.decryptor.encryptor]
