@@ -99,10 +99,7 @@ public class TextFileUtils {
   }
 
   public static void readTextFromUri(
-      @Nullable Uri uri,
-      TextInputEditText editTextContent,
-      Activity activity,
-      ConversionManager conversionManager) {
+      @Nullable Uri uri, TextInputEditText editTextContent, Activity activity) {
     if (uri == null) return;
     try (InputStream inputStream = activity.getContentResolver().openInputStream(uri);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
@@ -113,10 +110,10 @@ public class TextFileUtils {
         textBuilder.append(line).append('\n');
       }
 
-      conversionManager.setProgrammaticTextChange(true);
-      editTextContent.setText(textBuilder.toString());
-      conversionManager.setProgrammaticTextChange(false);
       editTextContent.requestFocus();
+      //  conversionManager.setProgrammaticTextChange(true);
+      editTextContent.setText(textBuilder.toString());
+      //  conversionManager.setProgrammaticTextChange(false);
 
     } catch (Exception e) {
       Toast.makeText(activity, "Failed to read file: " + e.getMessage(), Toast.LENGTH_SHORT).show();

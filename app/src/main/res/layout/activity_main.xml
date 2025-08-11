@@ -14,7 +14,6 @@
     android:layout_height="wrap_content"
     android:background="?attr/colorSurface"
     android:elevation="0dp"
-    
     app:titleTextAppearance="@style/CustomToolbarTitle"
   />
 

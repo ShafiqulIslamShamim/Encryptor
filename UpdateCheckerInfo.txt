@@ -1,7 +1,6 @@
-[3.3]
-[3.3]
+[3.4]
+[3.4]
 [What’s new!
 
-- Added support for importing text files into both the Input and Result fields.
-You can now easily select a .txt file using the Import button to load and convert text instantly.]
+- Fixed issues related to import text conversation.]
 [https://play.google.com/store/apps/details?id=com.decryptor.encryptor]

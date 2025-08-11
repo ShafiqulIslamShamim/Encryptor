@@ -72,8 +72,7 @@ public class EventHandler {
               if (result.getResultCode() == activity.RESULT_OK && result.getData() != null) {
                 Uri uri = result.getData().getData();
 
-                TextFileUtils.readTextFromUri(
-                    uri, uiInitializer.getInputEditText(), activity, conversionManager);
+                TextFileUtils.readTextFromUri(uri, uiInitializer.getInputEditText(), activity);
               }
             });
 
@@ -84,8 +83,7 @@ public class EventHandler {
               if (result.getResultCode() == activity.RESULT_OK && result.getData() != null) {
                 Uri uri = result.getData().getData();
 
-                TextFileUtils.readTextFromUri(
-                    uri, uiInitializer.getResultEditText(), activity, conversionManager);
+                TextFileUtils.readTextFromUri(uri, uiInitializer.getResultEditText(), activity);
               }
             });
 
