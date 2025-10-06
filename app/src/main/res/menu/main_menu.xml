@@ -3,6 +3,12 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
 >
+    <item
+    android:id="@+id/action_conversion"
+    android:title="Conversation"
+    app:actionLayout="@layout/menu_icon_conversion"
+    app:showAsAction="always"
+  />
     
     <item
     android:id="@+id/action_pick_color"
@@ -24,28 +30,12 @@
     app:showAsAction="always"
     app:actionLayout="@layout/menu_switch_item"
   />
-  
-  <item
-    android:id="@+id/spacer2"
-    android:title=""
-    app:showAsAction="always"
-    app:actionLayout="@layout/menu_spacer"
-  />
 
     <item
     app:actionLayout="@layout/menu_icon_reload"
     android:id="@id/reset"
     android:title="@string/search_reset"
     app:showAsAction="always"
-  />
-  
-  
-  
-  <item
-    android:id="@+id/spacer1"
-    android:title=""
-    app:showAsAction="always"
-    app:actionLayout="@layout/menu_spacer"
   />
 
     <item

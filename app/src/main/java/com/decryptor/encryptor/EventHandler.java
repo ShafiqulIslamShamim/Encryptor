@@ -395,6 +395,24 @@ public class EventHandler {
                 }
               }
             });
+
+    /*
+
+                // Long click listener to open Encryption settings
+    View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
+      @Override
+      public boolean onLongClick(View v) {
+        openEncryptionPreference();
+        return true;
+      }
+    };
+
+    // Apply to both EditTexts
+    uiInitializer.getInputEditText().setOnLongClickListener(longClickListener);
+    uiInitializer.getResultEditText().setOnLongClickListener(longClickListener);
+
+    */
+
   }
 
   public static CharSequence setColorTextBackground(
@@ -484,5 +502,15 @@ public class EventHandler {
     intent.setType("text/*");
     intent.addCategory(Intent.CATEGORY_OPENABLE);
     return intent;
+  }
+
+  private void openEncryptionPreference() {
+    try {
+      Intent intent = new Intent(activity, SettingsActivity.class);
+      intent.putExtra("pref_key", "pref_screen_encryption_key");
+      activity.startActivity(intent);
+    } catch (Exception e) {
+      Toast.makeText(activity, "Unable to open Encryption settings", Toast.LENGTH_SHORT).show();
+    }
   }
 }

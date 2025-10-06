@@ -7,10 +7,12 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import androidx.appcompat.widget.Toolbar;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ public class TooltipManager {
   private final Handler handler = new Handler(Looper.getMainLooper());
   private final Runnable autoDismissRunnable;
 
-  private Toolbar toolbar;
+  private MaterialToolbar toolbar;
   private MaterialButton imageCopy1,
       imagePaste1,
       imageShare1,
@@ -75,10 +77,38 @@ public class TooltipManager {
 
     toolbar.post(
         () -> {
-          View itemPrivateKey = toolbar.findViewById(R.id.action_private_key);
-          View itemSwitch = toolbar.findViewById(R.id.menu_hex_switch);
-          View itemReset = toolbar.findViewById(R.id.reset);
-          View itemSettings = toolbar.findViewById(R.id.settings);
+          Menu menu = toolbar.getMenu();
+
+          // Pick color
+          MenuItem pickColorItem = menu.findItem(R.id.action_pick_color);
+          View pickColorView = pickColorItem.getActionView();
+          View pickColorIcon = pickColorView.findViewById(R.id.icon_image);
+
+          // Private key
+          MenuItem privateKeyItem = menu.findItem(R.id.action_private_key);
+          View privateKeyView = privateKeyItem.getActionView();
+          View privateKeyIcon = privateKeyView.findViewById(R.id.icon_image);
+
+          // Reset
+          MenuItem resetItem = menu.findItem(R.id.reset);
+          View resetView = resetItem.getActionView();
+          View resetIcon = resetView.findViewById(R.id.icon_image);
+
+          // Settings
+          MenuItem settingsItem = menu.findItem(R.id.settings);
+          View settingsView = settingsItem.getActionView();
+          View settingsIcon = settingsView.findViewById(R.id.icon_image);
+
+          // Conversation
+          MenuItem conversionItem = menu.findItem(R.id.action_conversion);
+          View conversionView = conversionItem.getActionView();
+          View conversionIcon = conversionView.findViewById(R.id.icon_image);
+
+          // Switch compat
+
+          MenuItem hexItem = menu.findItem(R.id.menu_hex_switch);
+          View switchLayout = hexItem.getActionView();
+          View hexSwitch = switchLayout.findViewById(R.id.hex_switch);
 
           targets.clear();
           currentIndex = 0;
@@ -116,12 +146,18 @@ public class TooltipManager {
           addTooltip(
               imageExport2, "Export", "Saves the text to a user-selected location using SAF.");
           addTooltip(
-              itemPrivateKey,
+              conversionIcon,
+              "Conversion selector",
+              "Can change conversion within a second by using it.");
+          addTooltip(
+              pickColorIcon, "Color picker", "Pick a color easily with Color picker dialog.");
+          addTooltip(
+              privateKeyIcon,
               "Private Key",
               "Set a password and key, or view your saved private key.");
-          addTooltip(itemSwitch, "Hex Mode", "Enable to generate results in hexadecimal format.");
-          addTooltip(itemReset, "Reset", "Clears both input and result fields.");
-          addTooltip(itemSettings, "Settings", "Customize your preferences here.");
+          addTooltip(hexSwitch, "Hex Mode", "Enable to generate results in hexadecimal format.");
+          addTooltip(resetIcon, "Reset", "Clears both input and result fields.");
+          addTooltip(settingsIcon, "Settings", "Customize your preferences here.");
 
           if (!targets.isEmpty()) {
             showNextTooltip();

@@ -14,14 +14,12 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.widget.*;
+import androidx.activity.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.textfield.TextInputEditText;
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     super.onCreate(savedInstanceState);
 
-    applySystemBarIconColors(getWindow());
+    applySystemBarIconColors();
 
     context = this;
 
@@ -330,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  private void applySystemBarIconColors(Window window) {
+  private void applySystemBarIconColors() {
     String themePref = SharedPrefValues.getValue("theme_preference", "0");
 
     boolean isLightTheme;
@@ -350,56 +348,14 @@ public class MainActivity extends AppCompatActivity {
         break;
     }
 
-    // Apply system UI bar settings
-    WindowCompat.setDecorFitsSystemWindows(window, false);
-    window.setStatusBarColor(Color.TRANSPARENT);
-    window.setNavigationBarColor(Color.TRANSPARENT);
-
-    WindowInsetsControllerCompat insetsController =
-        WindowCompat.getInsetsController(window, window.getDecorView());
-
-    if (insetsController != null) {
-      // true = dark icons, false = light icons
-      insetsController.setAppearanceLightStatusBars(isLightTheme);
-      insetsController.setAppearanceLightNavigationBars(isLightTheme);
-    }
+    // Enable edge-to-edge (backward compatible)
+    EdgeToEdge.enable(this);
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     return uiInitializer.initializeMenu(menu, eventHandler);
   }
-
-  /*  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    int resetId = getResources().getIdentifier("reset", "id", getPackageName());
-    int settingsId = getResources().getIdentifier("settings", "id", getPackageName());
-    int hexSwitchId = getResources().getIdentifier("menu_hex_switch", "id", getPackageName());
-
-    if (item.getItemId() == resetId) {
-      eventHandler.handleReset();
-      return true;
-    } else if (item.getItemId() == settingsId) {
-      startActivity(new Intent(this, SettingsActivity.class));
-      return true;
-    } else if (item.getItemId() == R.id.action_private_key) {
-
-      if (!PasswordManager.isPrivateKeySet()) {
-        PasswordManager.showSetPasswordDialog(this);
-      } else {
-        PasswordManager.showPasswordPrompt(this);
-      }
-
-      return true;
-    } else if (item.getItemId() == R.id.action_pick_color) {
-      showColorPickerDialog();
-      return true;
-    }
-
-    return super.onOptionsItemSelected(item);
-  }
-
-  */
 
   @Override
   public void onBackPressed() {

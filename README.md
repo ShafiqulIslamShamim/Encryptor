@@ -50,7 +50,12 @@ Encryptor includes a wide variety of tools for encoding, decoding, hashing, and 
 - US-ASCII, ISO-8859-1, CP1251
 
 #### 🔢 Numerical Conversions:
-- Decimal ⇄ Binary / Octal / Hex  
+- Binary Addition &amp; Subtraction
+- Decimal ⇄ Binary, Octal, Hexadecimal
+- Binary ⇄ Decimal, Octal, Hexadecimal
+- Octal ⇄ Decimal, Binary, Hexadecimal
+- Hex(0x0) ⇄ Decimal, Binary, Octal
+- Hex(0x00000000) ⇄ Decimal, Binary, Octal  
 - Float ⇄ Binary / Octal / Hex  
 - Hex Formats: `0x0`, `0x00000000`  
 - Color Code Formats: Hex (`#AABBCC`), Decimal, ARGB

@@ -37,6 +37,10 @@ public class ConversionManager {
   }
 
   public void performConversion(boolean isInputFocused) {
+
+    int decimal;
+    String binary, octal, hex;
+
     int selectedIndex = SharedPrefValues.getValue("converter_select", 27);
 
     String input = inputEditText.getText().toString();
@@ -327,169 +331,120 @@ public class ConversionManager {
           }
           break;
 
-        case 16: // Binary
-          if (!isInputFocused) {
-            if (result.startsWith("-")) {
-              result = result.substring(1);
-              str9 = "-";
-            }
-            String decoded =
-                new StringBuffer()
-                    .append(str9)
-                    .append(String.valueOf(Long.parseLong(result, 2)))
-                    .toString();
-            isProgrammaticTextChange = true;
-            inputEditText.setText(decoded);
-            isProgrammaticTextChange = false;
-          } else {
-            if (input.startsWith("-")) {
-              input = input.substring(1);
-              str9 = "-";
-            }
-            String encoded =
-                new StringBuffer()
-                    .append(str9)
-                    .append(Long.toBinaryString(Long.parseLong(input)))
-                    .toString();
-            isProgrammaticTextChange = true;
-            resultEditText.setText(encoded);
-            isProgrammaticTextChange = false;
-          }
+        case 16: // Decimal
+          resultEditText.setFocusable(false);
+          resultEditText.setClickable(false);
+          resultEditText.setTextIsSelectable(true);
+
+          InputFilter filterDecimal = new InputFilter.Builder().allowDecimal().build();
+
+          String inputDecimal = filterDecimal.filter(input);
+
+          decimal = Integer.parseInt(inputDecimal);
+          binary = Integer.toBinaryString(decimal);
+          octal = Integer.toOctalString(decimal);
+          hex = Integer.toHexString(decimal).toUpperCase();
+
+          isProgrammaticTextChange = true;
+          updateTextPreserveSelection(inputEditText, inputDecimal);
+          NumberSystemUtils.setCopyableResults(
+              resultEditText, String.valueOf(decimal), binary, octal, hex);
+          isProgrammaticTextChange = false;
           break;
 
-        case 17: // Octal
-          if (!isInputFocused) {
-            if (result.startsWith("-")) {
-              result = result.substring(1);
-              str9 = "-";
-            }
-            String decoded =
-                new StringBuffer()
-                    .append(str9)
-                    .append(String.valueOf(Long.parseLong(result, 8)))
-                    .toString();
-            isProgrammaticTextChange = true;
-            inputEditText.setText(decoded);
-            isProgrammaticTextChange = false;
-          } else {
-            if (input.startsWith("-")) {
-              input = input.substring(1);
-              str9 = "-";
-            }
-            String encoded =
-                new StringBuffer()
-                    .append(str9)
-                    .append(Long.toOctalString(Long.parseLong(input)))
-                    .toString();
-            isProgrammaticTextChange = true;
-            resultEditText.setText(encoded);
-            isProgrammaticTextChange = false;
-          }
+        case 17: // Binary
+          resultEditText.setFocusable(false);
+          resultEditText.setClickable(false);
+          resultEditText.setTextIsSelectable(true);
+
+          InputFilter filterBinary = new InputFilter.Builder().allowBinary().build();
+
+          String inputBinary = filterBinary.filter(input);
+
+          decimal = Integer.parseInt(inputBinary, 2);
+          binary = inputBinary;
+          octal = Integer.toOctalString(decimal);
+          hex = Integer.toHexString(decimal).toUpperCase();
+
+          isProgrammaticTextChange = true;
+          updateTextPreserveSelection(inputEditText, inputBinary);
+          NumberSystemUtils.setCopyableResults(
+              resultEditText, String.valueOf(decimal), binary, octal, hex);
+          isProgrammaticTextChange = false;
           break;
 
-        case 18: // Hex (no prefix)
-          if (!isInputFocused) {
-            String temp = result;
-            if (temp.startsWith("-")) {
-              temp = temp.substring(1);
-              str9 = "-";
-            }
-            if (temp.startsWith("0x")) {
-              temp = temp.substring(2);
-            }
-            String decoded =
-                new StringBuffer()
-                    .append(str9)
-                    .append(String.valueOf(Long.parseLong(temp, 16)))
-                    .toString();
-            isProgrammaticTextChange = true;
-            inputEditText.setText(decoded);
-            isProgrammaticTextChange = false;
-          } else {
-            if (input.startsWith("-")) {
-              input = input.substring(1);
-              str9 = "-";
-            }
-            String encoded =
-                new StringBuffer()
-                    .append(str9)
-                    .append(Long.toHexString(Long.parseLong(input)))
-                    .toString();
-            isProgrammaticTextChange = true;
-            resultEditText.setText(encoded);
-            isProgrammaticTextChange = false;
-          }
+        case 18: // Octal
+          resultEditText.setFocusable(false);
+          resultEditText.setClickable(false);
+          resultEditText.setTextIsSelectable(true);
+
+          InputFilter filterOctal = new InputFilter.Builder().allowOctal().build();
+
+          String inputOctal = filterOctal.filter(input);
+
+          decimal = Integer.parseInt(inputOctal, 8);
+          binary = Integer.toBinaryString(decimal);
+          octal = inputOctal;
+          hex = Integer.toHexString(decimal).toUpperCase();
+
+          isProgrammaticTextChange = true;
+          updateTextPreserveSelection(inputEditText, inputOctal);
+          NumberSystemUtils.setCopyableResults(
+              resultEditText, String.valueOf(decimal), binary, octal, hex);
+          isProgrammaticTextChange = false;
           break;
 
-        case 19: // Hex (with 0x prefix)
-          if (!isInputFocused) {
-            String temp = result;
-            if (temp.startsWith("-")) {
-              temp = temp.substring(1);
-              str9 = "-";
-            }
-            if (temp.startsWith("0x")) {
-              temp = temp.substring(2);
-            }
-            String decoded =
-                new StringBuffer()
-                    .append(str9)
-                    .append(String.valueOf(Long.parseLong(temp, 16)))
-                    .toString();
-            isProgrammaticTextChange = true;
-            inputEditText.setText(decoded);
-            isProgrammaticTextChange = false;
-          } else {
-            if (input.startsWith("-")) {
-              input = input.substring(1);
-              str9 = "-";
-            }
-            String encoded =
-                new StringBuffer()
-                    .append(str9)
-                    .append("0x")
-                    .append(Long.toHexString(Long.parseLong(input)))
-                    .toString();
-            isProgrammaticTextChange = true;
-            resultEditText.setText(encoded);
-            isProgrammaticTextChange = false;
-          }
+        case 19: // Hexadecimal (no prefix)
+          resultEditText.setFocusable(false);
+          resultEditText.setClickable(false);
+          resultEditText.setTextIsSelectable(true);
+
+          InputFilter filterHex = new InputFilter.Builder().allowHex().build();
+
+          String inputHex = filterHex.filter(input);
+
+          decimal = Integer.parseInt(inputHex, 16);
+          binary = Integer.toBinaryString(decimal);
+          octal = Integer.toOctalString(decimal);
+          hex = Integer.toHexString(decimal).toUpperCase();
+
+          isProgrammaticTextChange = true;
+          updateTextPreserveSelection(inputEditText, inputHex);
+          NumberSystemUtils.setCopyableResults(
+              resultEditText, String.valueOf(decimal), binary, octal, hex);
+          isProgrammaticTextChange = false;
           break;
 
-        case 20: // Hex (with 0x prefix, padded)
-          if (!isInputFocused) {
-            String temp = result;
-            if (temp.startsWith("-")) {
-              temp = temp.substring(1);
-              str9 = "-";
-            }
-            if (temp.startsWith("0x")) {
-              temp = temp.substring(2);
-            }
-            String decoded =
-                new StringBuffer()
-                    .append(str9)
-                    .append(String.valueOf(Long.parseLong(temp, 16)))
-                    .toString();
-            isProgrammaticTextChange = true;
-            inputEditText.setText(decoded);
-            isProgrammaticTextChange = false;
-          } else {
-            String temp = input;
-            if (temp.startsWith("-")) {
-              temp = temp.substring(1);
-              str9 = "-";
-            }
-            String hexString = Long.toHexString(Long.parseLong(temp));
-            for (int length = 8 - hexString.length(); length > 0; length--) {
-              hexString = new StringBuffer().append("0").append(hexString).toString();
-            }
-            String encoded =
-                new StringBuffer().append(str9).append("0x").append(hexString).toString();
-            isProgrammaticTextChange = true;
-            resultEditText.setText(encoded);
-            isProgrammaticTextChange = false;
+        case 20: // Hexadecimal (with 0x prefix)
+          resultEditText.setFocusable(false);
+          resultEditText.setClickable(false);
+          resultEditText.setTextIsSelectable(true);
+
+          InputFilter filterHex0x = new InputFilter.Builder().allowHex0x().build();
+
+          String inputHex0x = filterHex0x.filter(input);
+
+          String prefix = inputHex0x.startsWith("-") ? "-" : "";
+          String value = inputHex0x.startsWith("-") ? inputHex0x.substring(1) : inputHex0x;
+
+          long decLong = Long.parseLong(value);
+          String hexString = Long.toHexString(decLong).toUpperCase();
+
+          // Pad to 8 digits
+          while (hexString.length() < 8) {
+            hexString = "0" + hexString;
           }
+
+          String encodedHex = prefix + "0x" + hexString;
+
+          String bin = Long.toBinaryString(decLong);
+          String oct = Long.toOctalString(decLong);
+
+          isProgrammaticTextChange = true;
+          updateTextPreserveSelection(inputEditText, inputHex0x);
+          NumberSystemUtils.setCopyableResults(
+              resultEditText, String.valueOf(decLong), bin, oct, encodedHex);
+          isProgrammaticTextChange = false;
           break;
 
         case 21: // Float (Binary)
@@ -792,6 +747,31 @@ public class ConversionManager {
           }
           break;
 
+        case 32: // Binary addition & subtraction
+          resultEditText.setFocusable(false);
+          resultEditText.setClickable(false);
+          resultEditText.setTextIsSelectable(true);
+
+          InputFilter filterBinaryAddSub =
+              new InputFilter.Builder()
+                  .allowBinary()
+                  .allowSpaces()
+                  .allowOperators("+", "-")
+                  .build();
+
+          String inputBinaryAddSub = filterBinaryAddSub.filter(input);
+
+          String resultBinary = BinaryCalculator.calculate(inputBinaryAddSub);
+
+          isProgrammaticTextChange = true;
+
+          updateTextPreserveSelection(inputEditText, inputBinaryAddSub);
+
+          resultEditText.setText(resultBinary);
+          isProgrammaticTextChange = false;
+
+          break;
+
         default:
           Log.w(TAG, "Unknown SharedPreferences index: " + selectedIndex);
           break;
@@ -810,5 +790,25 @@ public class ConversionManager {
 
   public void setProgrammaticTextChange(boolean value) {
     isProgrammaticTextChange = value;
+  }
+
+  public static void updateTextPreserveSelection(TextInputEditText editText, CharSequence newText) {
+    if (editText == null) return;
+
+    int start = editText.getSelectionStart();
+    int end = editText.getSelectionEnd();
+
+    editText.setText(newText);
+
+    int length = editText.getText().length();
+    if (start > length) start = length;
+    if (end > length) end = length;
+
+    try {
+      editText.setSelection(start, end);
+    } catch (Exception e) {
+      // কোনো ত্রুটি হলে কার্সর শেষে রাখবে
+      editText.setSelection(length);
+    }
   }
 }

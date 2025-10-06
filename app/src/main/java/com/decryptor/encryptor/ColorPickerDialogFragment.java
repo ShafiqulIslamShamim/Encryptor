@@ -82,12 +82,14 @@ public class ColorPickerDialogFragment extends DialogFragment {
           if (!hex.equalsIgnoreCase(hexEditText.getText().toString())) {
             hexEditText.removeTextChangedListener(hexWatcher);
             hexEditText.setText(hex);
+            hexEditText.setSelection(hex.length());
             hexEditText.addTextChangedListener(hexWatcher);
           }
 
           if (!smali.equalsIgnoreCase(smaliEditText.getText().toString())) {
             smaliEditText.removeTextChangedListener(smaliWatcher);
             smaliEditText.setText(smali);
+            smaliEditText.setSelection(smali.length());
             smaliEditText.addTextChangedListener(smaliWatcher);
           }
         });
@@ -114,6 +116,7 @@ public class ColorPickerDialogFragment extends DialogFragment {
               if (!smali.equalsIgnoreCase(smaliEditText.getText().toString())) {
                 smaliEditText.removeTextChangedListener(smaliWatcher);
                 smaliEditText.setText(smali);
+                smaliEditText.setSelection(smali.length());
                 smaliEditText.addTextChangedListener(smaliWatcher);
               }
 
@@ -145,6 +148,7 @@ public class ColorPickerDialogFragment extends DialogFragment {
                 if (!hex.equalsIgnoreCase(hexEditText.getText().toString())) {
                   hexEditText.removeTextChangedListener(hexWatcher);
                   hexEditText.setText(hex);
+                  hexEditText.setSelection(hex.length());
                   hexEditText.addTextChangedListener(hexWatcher);
                 }
 

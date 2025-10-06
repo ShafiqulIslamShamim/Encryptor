@@ -18,11 +18,12 @@
     <item>Array (US-ASCII)</item>
     <item>Array (ISO-8859-1)</item>
     <item>Array (CP1251)</item>
-    <item>Decimal Binary</item>
-    <item>Decimal Octal</item>
-    <item>Decimal Hex</item>
-    <item>Decimal Hex (0x0)</item>
-    <item>Decimal Hex (0x00000000)</item>
+    <item>Binary Addition &amp; Subtraction</item>
+    <item>Decimal to Binary, Octal, Hexadecimal</item>
+    <item>Binary to Decimal, Octal, Hexadecimal</item>
+    <item>Octal to Decimal, Binary, Hexadecimal</item>
+    <item>Hex(0x0) to Decimal, Binary, Octal</item>
+    <item>Hex(0x00000000) to Decimal, Binary, Octal</item>
     <item>Float Binary</item>
     <item>Float Octal</item>
     <item>Float Hex</item>
@@ -52,6 +53,7 @@
     <item>13</item>
     <item>14</item>
     <item>15</item>
+    <item>32</item>
     <item>16</item>
     <item>17</item>
     <item>18</item>

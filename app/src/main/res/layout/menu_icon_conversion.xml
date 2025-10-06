@@ -24,7 +24,7 @@
       android:layout_width="36dp"
       android:layout_height="36dp"
       android:padding="6dp"
-      android:src="@drawable/ic_reload"
+      android:src="@drawable/autorenew_24px"
       android:tint="?attr/colorOnPrimaryContainer"
     />
     </com.google.android.material.card.MaterialCardView>

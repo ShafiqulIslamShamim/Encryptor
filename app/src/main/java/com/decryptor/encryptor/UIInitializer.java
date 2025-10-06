@@ -1,15 +1,19 @@
 package com.decryptor.encryptor;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.preference.PreferenceManager;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -172,7 +176,7 @@ public class UIInitializer {
     // Pick Color
     MenuItem pickColorItem = menu.findItem(R.id.action_pick_color);
     View pickColorView = pickColorItem.getActionView();
-    ImageView pickColorIcon = pickColorView.findViewById(R.id.icon_image);
+    View pickColorIcon = pickColorView.findViewById(R.id.icon_image);
     pickColorIcon.setOnClickListener(
         v -> {
           MainActivity mainActivity = (MainActivity) activity;
@@ -182,7 +186,7 @@ public class UIInitializer {
     // Private Key
     MenuItem privateKeyItem = menu.findItem(R.id.action_private_key);
     View privateKeyView = privateKeyItem.getActionView();
-    ImageView privateKeyIcon = privateKeyView.findViewById(R.id.icon_image);
+    View privateKeyIcon = privateKeyView.findViewById(R.id.icon_image);
     privateKeyIcon.setOnClickListener(
         v -> {
           PasswordManager.startBiometricAuth(activity, activity, true);
@@ -191,7 +195,7 @@ public class UIInitializer {
     // Reset
     MenuItem resetItem = menu.findItem(R.id.reset);
     View resetView = resetItem.getActionView();
-    ImageView resetIcon = resetView.findViewById(R.id.icon_image);
+    View resetIcon = resetView.findViewById(R.id.icon_image);
     resetIcon.setOnClickListener(
         v -> {
           eventHandler.handleReset();
@@ -200,10 +204,19 @@ public class UIInitializer {
     // Settings
     MenuItem settingsItem = menu.findItem(R.id.settings);
     View settingsView = settingsItem.getActionView();
-    ImageView settingsIcon = settingsView.findViewById(R.id.icon_image);
+    View settingsIcon = settingsView.findViewById(R.id.icon_image);
     settingsIcon.setOnClickListener(
         v -> {
           activity.startActivity(new Intent(activity, SettingsActivity.class));
+        });
+
+    // Conversation
+    MenuItem conversionItem = menu.findItem(R.id.action_conversion);
+    View conversionView = conversionItem.getActionView();
+    View conversionIcon = conversionView.findViewById(R.id.icon_image);
+    conversionIcon.setOnClickListener(
+        v -> {
+          handleComversion(activity);
         });
 
     // Visibility toggle based on converter_select
@@ -285,6 +298,56 @@ public class UIInitializer {
     tooltipManager.maybeShowTooltips();
 
     return true;
+  }
+
+  public void handleComversion(Context context) {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    String[] entries = context.getResources().getStringArray(R.array.conversion_options);
+    String[] entryValues =
+        context.getResources().getStringArray(R.array.conversion_options_entryvalue);
+
+    String currentValue = prefs.getString("converter_select", "27");
+    int checkedItem = -1;
+    for (int i = 0; i < entryValues.length; i++) {
+      if (entryValues[i].equals(currentValue)) {
+        checkedItem = i;
+        break;
+      }
+    }
+
+    new MaterialAlertDialogBuilder(context)
+        .setTitle("Select conversion")
+        .setSingleChoiceItems(
+            entries,
+            checkedItem,
+            (dialog, which) -> {
+              prefs.edit().putString("converter_select", entryValues[which]).apply();
+
+              Toast.makeText(context, "Selected: " + entries[which], Toast.LENGTH_SHORT).show();
+
+              dialog.dismiss();
+
+              // এখন MainActivity স্মুথলি রিস্টার্ট করো
+              restartMainActivity(context);
+            })
+        .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+        .show();
+  }
+
+  private void restartMainActivity(Context context) {
+    if (context instanceof AppCompatActivity) {
+      AppCompatActivity activity = (AppCompatActivity) context;
+
+      Intent intent = new Intent(activity, MainActivity.class);
+      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+      // optional smooth transition animation
+      activity.startActivity(intent);
+      activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+      // finish current activity to prevent duplicate stack
+      activity.finish();
+    }
   }
 
   private <T extends View> T initializeView(String name, String defType, Class<T> clazz) {
