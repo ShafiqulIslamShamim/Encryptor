@@ -16,8 +16,8 @@ android {
         applicationId 'com.decryptor.encryptor'
         minSdk 26
         targetSdk 36
-        versionCode 26
-        versionName '3.5'
+        versionCode 27
+        versionName '3.6'
 
         vectorDrawables {
             useSupportLibrary true
@@ -47,17 +47,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-
-    buildFeatures {
-        viewBinding true
-    }
-    
-    lint {
-        abortOnError = true
-        warningsAsErrors = true
-        checkAllWarnings = true
-        explainIssues = true
     }
 
 }

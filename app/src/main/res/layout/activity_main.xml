@@ -94,6 +94,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />
 
     <!-- Paste Button -->
@@ -111,6 +115,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />
 
     <!-- Share Button -->
@@ -128,6 +136,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />
         
     <!-- Import Button -->
@@ -145,6 +157,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />    
 
     <!-- Export Button -->
@@ -161,6 +177,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />
 
 </com.google.android.flexbox.FlexboxLayout>
@@ -236,6 +256,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />
 
     <!-- Paste Button -->
@@ -253,6 +277,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />
 
     <!-- Reload Button (Hidden) -->
@@ -271,6 +299,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />
 
     <!-- Share Button -->
@@ -288,6 +320,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />
         
     <!-- Import Button -->
@@ -305,6 +341,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />    
 
     <!-- Export Button -->
@@ -321,6 +361,10 @@
           app:iconPadding="4dp"
           app:iconGravity="start"
           app:elevation="2dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+          android:stateListAnimator="@animator/button_press_bounce"
         />
 
 </com.google.android.flexbox.FlexboxLayout>

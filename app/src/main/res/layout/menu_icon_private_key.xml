@@ -18,6 +18,9 @@
     app:strokeWidth="0dp"
     app:cardElevation="0dp"
     app:cardBackgroundColor="?attr/colorPrimaryContainer"
+    android:clickable="true"
+    android:focusable="true"
+    android:stateListAnimator="@animator/card_press_bounce"
   >
 
         <ImageView

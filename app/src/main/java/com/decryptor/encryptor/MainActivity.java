@@ -3,7 +3,6 @@ package com.decryptor.encryptor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,18 +12,13 @@ import android.text.style.*;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
-import android.view.View;
 import android.widget.*;
 import androidx.activity.*;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
   private static final String TAG = "MainActivity";
   private Context context;
   private UIInitializer uiInitializer;
@@ -36,14 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    applyLocalTheme(); // 👈 Apply local theme
-
     super.onCreate(savedInstanceState);
-
-    applySystemBarIconColors();
-
     context = this;
-
     OTAUpdateHelper.checkForUpdatesIfDue(context);
 
     boolean logcat = SharedPrefValues.getValue("enable_logcat", false);
@@ -64,16 +52,6 @@ public class MainActivity extends AppCompatActivity {
       finish();
       return;
     }
-
-    // ✅ Apply WindowInsets padding
-    View rootView = findViewById(android.R.id.content);
-    ViewCompat.setOnApplyWindowInsetsListener(
-        rootView,
-        (v, insets) -> {
-          Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-          v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-          return insets;
-        });
 
     // Set toolbar
     MaterialToolbar toolbar = findViewById(R.id.topAppBar);
@@ -311,45 +289,6 @@ public class MainActivity extends AppCompatActivity {
             - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color))
                 / 255;
     return darkness >= 0.5;
-  }
-
-  private void applyLocalTheme() {
-    String themePref = SharedPrefValues.getValue("theme_preference", "0");
-    switch (themePref) {
-      case "2": // Dark
-        setTheme(R.style.AppThemeDark);
-        break;
-      case "3": // Light
-        setTheme(R.style.AppThemeLight);
-        break;
-      default: // System/default
-        setTheme(R.style.AppTheme);
-        break;
-    }
-  }
-
-  private void applySystemBarIconColors() {
-    String themePref = SharedPrefValues.getValue("theme_preference", "0");
-
-    boolean isLightTheme;
-
-    switch (themePref) {
-      case "2": // Dark theme
-        isLightTheme = false;
-        break;
-      case "3": // Light theme
-        isLightTheme = true;
-        break;
-      default:
-        // Follow system theme
-        int nightModeFlags =
-            getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        isLightTheme = (nightModeFlags != Configuration.UI_MODE_NIGHT_YES);
-        break;
-    }
-
-    // Enable edge-to-edge (backward compatible)
-    EdgeToEdge.enable(this);
   }
 
   @Override
