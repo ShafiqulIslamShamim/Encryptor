@@ -9,6 +9,7 @@ public class EncryptorApp extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
+    CrashHandler.getInstance().registerGlobal(this);
     AppContext.init(this);
   }
 }

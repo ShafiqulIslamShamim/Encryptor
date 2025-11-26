@@ -1,5 +1,5 @@
-[3.6]
-[3.6]
+[3.7]
+[3.7]
 [What’s new!
 
 - Fixed issues related to import text conversation.]
